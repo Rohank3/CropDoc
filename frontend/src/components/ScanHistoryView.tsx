@@ -44,11 +44,11 @@ export function ScanHistoryView({ lang, onSelectScan, onScansUpdated }: ScanHist
   };
 
   return (
-    <div className="w-full space-y-4 animate-in fade-in slide-in-from-bottom-4 duration-500">
-      <div className="flex items-center justify-between pb-2 border-b border-emerald-800/60">
+    <div className="w-full space-y-4">
+      <div className="flex items-center justify-between pb-3 border-b border-stone-200">
         <div className="flex items-center gap-2">
-          <Clock className="h-5 w-5 text-emerald-400" />
-          <h3 className="text-base font-bold text-white sm:text-lg">
+          <Clock className="h-4.5 w-4.5 text-stone-600" />
+          <h3 className="text-base font-bold text-stone-900 sm:text-lg">
             {t.scanHistory} ({scans.length})
           </h3>
         </div>
@@ -56,7 +56,7 @@ export function ScanHistoryView({ lang, onSelectScan, onScansUpdated }: ScanHist
         {scans.length > 0 && (
           <button
             onClick={handleClearAll}
-            className="flex items-center gap-1.5 rounded-xl border border-red-500/30 bg-red-500/10 px-3 py-1.5 text-xs font-semibold text-red-300 hover:bg-red-500/20 active:scale-95"
+            className="flex items-center gap-1.5 rounded-lg border border-stone-200 bg-white px-3 py-1.5 text-xs font-semibold text-rose-700 hover:bg-rose-50 hover:border-rose-200 active:scale-95 shadow-2xs transition-colors"
           >
             <Trash2 className="h-3.5 w-3.5" />
             <span>{t.clearHistory}</span>
@@ -65,13 +65,13 @@ export function ScanHistoryView({ lang, onSelectScan, onScansUpdated }: ScanHist
       </div>
 
       {scans.length === 0 ? (
-        <div className="flex flex-col items-center justify-center rounded-3xl border border-dashed border-emerald-800/80 bg-emerald-950/40 p-10 text-center">
-          <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-emerald-500/10 text-emerald-400 ring-1 ring-emerald-500/30 mb-3">
-            <Sprout className="h-8 w-8" />
+        <div className="flex flex-col items-center justify-center rounded-3xl border border-dashed border-stone-300 bg-white p-10 text-center shadow-xs">
+          <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-stone-100 text-stone-500 mb-3">
+            <Sprout className="h-7 w-7" />
           </div>
-          <p className="text-sm font-semibold text-emerald-200">{t.noSavedScans}</p>
-          <p className="text-xs text-emerald-400/60 mt-1 max-w-xs">
-            Leaf diagnostic prescriptions saved on this device will appear here and can be referenced offline in fields.
+          <p className="text-sm font-semibold text-stone-800">{t.noSavedScans}</p>
+          <p className="text-xs text-stone-500 mt-1 max-w-xs">
+            Leaf diagnostic records saved on this device will be stored here and remain accessible in rural fields without internet.
           </p>
         </div>
       ) : (
@@ -80,10 +80,10 @@ export function ScanHistoryView({ lang, onSelectScan, onScansUpdated }: ScanHist
             <div
               key={scan.id}
               onClick={() => onSelectScan(scan)}
-              className="group flex cursor-pointer items-center justify-between gap-3 rounded-2xl border border-emerald-800/60 bg-emerald-950/70 p-3.5 shadow-md transition-all hover:border-emerald-500/80 hover:bg-emerald-900/50 active:scale-[0.99]"
+              className="group flex cursor-pointer items-center justify-between gap-3 rounded-2xl border border-stone-200 bg-white p-3.5 shadow-xs transition-all hover:border-stone-300 hover:shadow-sm active:scale-[0.99]"
             >
               <div className="flex items-center gap-3">
-                <div className="h-14 w-14 flex-shrink-0 overflow-hidden rounded-xl border border-emerald-700/50 bg-black/40">
+                <div className="h-14 w-14 flex-shrink-0 overflow-hidden rounded-xl border border-stone-200 bg-stone-100">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={scan.imageThumbnail}
@@ -94,21 +94,21 @@ export function ScanHistoryView({ lang, onSelectScan, onScansUpdated }: ScanHist
 
                 <div className="space-y-0.5">
                   <div className="flex items-center gap-1.5">
-                    <span className="text-[10px] font-bold text-emerald-400 uppercase tracking-wider">
+                    <span className="text-[10px] font-bold text-stone-600 uppercase tracking-wider">
                       {scan.diagnosis.crop}
                     </span>
-                    <span className="text-[10px] text-emerald-400/60">•</span>
-                    <span className="text-[10px] text-emerald-300/60">
+                    <span className="text-[10px] text-stone-300">•</span>
+                    <span className="text-[10px] text-stone-500">
                       {formatDate(scan.timestamp)}
                     </span>
                   </div>
 
-                  <p className="text-xs font-bold text-white line-clamp-1">
+                  <p className="text-xs font-bold text-stone-900 line-clamp-1">
                     {scan.diagnosis.condition}
                   </p>
 
-                  <p className="text-[11px] text-emerald-300/80">
-                    Severity: <span className="font-semibold text-white">{scan.severity}</span>
+                  <p className="text-[11px] text-stone-500">
+                    Severity: <span className="font-semibold text-stone-800">{scan.severity}</span>
                   </p>
                 </div>
               </div>
@@ -117,12 +117,12 @@ export function ScanHistoryView({ lang, onSelectScan, onScansUpdated }: ScanHist
                 <button
                   type="button"
                   onClick={(e) => handleDelete(e, scan.id)}
-                  className="rounded-lg p-2 text-emerald-400/60 hover:bg-red-500/20 hover:text-red-300 transition-colors"
+                  className="rounded-lg p-2 text-stone-400 hover:bg-rose-50 hover:text-rose-600 transition-colors"
                   aria-label="Delete scan"
                 >
                   <Trash2 className="h-4 w-4" />
                 </button>
-                <ChevronRight className="h-4 w-4 text-emerald-400 transition-transform group-hover:translate-x-0.5" />
+                <ChevronRight className="h-4 w-4 text-stone-400 transition-transform group-hover:translate-x-0.5" />
               </div>
             </div>
           ))}
