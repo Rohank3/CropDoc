@@ -1,0 +1,966 @@
+{
+  "Apple___Apple_scab": {
+    "crop": "Apple",
+    "disease": "Apple Scab",
+    "pathogen": "Venturia inaequalis (Fungus)",
+    "severity": "High",
+    "symptoms": "Olive-green to velvety dark spots on leaves with indistinct margins; leaves yellow and drop prematurely; scabby rough lesions on fruit.",
+    "organic_remedies": [
+      "Spray wettable sulfur or copper hydroxide before bloom and immediately after rain periods.",
+      "Apply potassium bicarbonate (0.5% concentration) to raise leaf surface pH and inhibit spore germination.",
+      "Spray fermented horsetail (Equisetum arvense) extract rich in natural silica to strengthen leaf cuticles."
+    ],
+    "chemical_remedies": [
+      "Apply Mancozeb 75% WP at 2.5 g/L during primary bud break and pre-pink stage.",
+      "Rotate with Difenoconazole 25% EC at 0.5 mL/L or Kresoxim-methyl 44.3% SC at 0.6 mL/L during active shoot growth.",
+      "Observe a strict 28-day pre-harvest interval (PHI) for systemic fungicides."
+    ],
+    "preventive_practices": [
+      "Rake and destroy fallen leaves in autumn or apply 5% urea spray to speed leaf decomposition and destroy overwintering perithecia.",
+      "Prune the tree canopy in late winter to facilitate rapid leaf drying and sunlight penetration.",
+      "Plant scab-resistant cultivars such as Liberty, Prima, or Enterprise."
+    ],
+    "weather_triggers": {
+      "ideal_temp_range": "15°C - 24°C",
+      "humidity_threshold": "> 85%",
+      "leaf_wetness_hours": "9+ continuous hours of leaf wetness"
+    }
+  },
+  "Apple___Black_rot": {
+    "crop": "Apple",
+    "disease": "Black Rot (Frogeye Leaf Spot)",
+    "pathogen": "Botryosphaeria obtusa (Fungus)",
+    "severity": "High",
+    "symptoms": "Small purple spots on leaves expanding into 'frogeye' spots with brown centers and purple borders; cankers on twigs; firm black rot on fruit.",
+    "organic_remedies": [
+      "Apply Bordeaux mixture (4-4-50) or copper sulfate spray during the dormant stage.",
+      "Prune and burn infected twigs, mummified fruits, and dead wood where pycnidia overwinter.",
+      "Bio-fungicide drench with Bacillus subtilis (Serenade ASO) at 5 mL/L during bloom."
+    ],
+    "chemical_remedies": [
+      "Apply Captan 50% WP at 2.0 g/L or Thiophanate-methyl 70% WP at 1.0 g/L.",
+      "Apply Pyraclostrobin + Boscalid (Pristine WG) during petal fall at recommended label rates.",
+      "Re-spray every 10 to 14 days if wet weather persists."
+    ],
+    "preventive_practices": [
+      "Cut out cankers at least 15 cm below infected margins using sterilized shears (disinfected in 70% isopropyl alcohol).",
+      "Prevent mechanical wounds, frost cracking, and sunscald on tree bark.",
+      "Remove fire blight strikes and dead branches which serve as fungal reservoir sites."
+    ],
+    "weather_triggers": {
+      "ideal_temp_range": "20°C - 28°C",
+      "humidity_threshold": "> 80%",
+      "leaf_wetness_hours": "4-6 hours"
+    }
+  },
+  "Apple___Cedar_apple_rust": {
+    "crop": "Apple",
+    "disease": "Cedar Apple Rust",
+    "pathogen": "Gymnosporangium juniperi-virginianae (Fungus)",
+    "severity": "Medium",
+    "symptoms": "Bright yellow-orange circular lesions on upper leaf surfaces; later developing raised tubular fungal cups (aecia) on the underside.",
+    "organic_remedies": [
+      "Apply liquid sulfur sprays every 7-10 days from pink bud through petal fall.",
+      "Use copper soap or copper octanoate as a protective bio-pesticide early in the season.",
+      "Inspect and manually prune cedar galls from nearby Eastern red cedar junipers in winter."
+    ],
+    "chemical_remedies": [
+      "Apply Myclobutanil 10% WP at 1.0 g/L or Triadimefon 25% WP at 0.5 g/L.",
+      "Apply Mancozeb 75% WP protectant at early vegetative emergence.",
+      "Do not apply systemic triazoles more than 3 times per season to prevent pathogen resistance."
+    ],
+    "preventive_practices": [
+      "Remove surrounding red cedar and juniper hosts within a 500-meter radius if possible.",
+      "Select rust-resistant apple varieties like Gala, Honeycrisp, or William's Pride.",
+      "Maintain adequate nitrogen balance to avoid overly succulent shoot susceptibility."
+    ],
+    "weather_triggers": {
+      "ideal_temp_range": "10°C - 24°C",
+      "humidity_threshold": "> 85%",
+      "leaf_wetness_hours": "4-8 hours"
+    }
+  },
+  "Apple___healthy": {
+    "crop": "Apple",
+    "disease": "Healthy Apple Foliage",
+    "pathogen": "None (Healthy)",
+    "severity": "None",
+    "symptoms": "Vibrant green leaves with clean margins, no necrotic lesions, fungal sporulation, or chlorotic mottling.",
+    "organic_remedies": [
+      "Maintain preventative compost mulch around root dripline (avoiding trunk contact).",
+      "Foliar spray with seaweed extract (2 mL/L) to boost natural systemic acquired resistance (SAR)."
+    ],
+    "chemical_remedies": [
+      "No chemical fungicides or bactericides required. Continue regular scouting."
+    ],
+    "preventive_practices": [
+      "Maintain regular drip irrigation and annual soil fertility testing.",
+      "Keep orchard floor mowed and clear of decomposing plant debris."
+    ],
+    "weather_triggers": {
+      "ideal_temp_range": "15°C - 25°C",
+      "humidity_threshold": "40% - 70%",
+      "leaf_wetness_hours": "Low"
+    }
+  },
+  "Blueberry___healthy": {
+    "crop": "Blueberry",
+    "disease": "Healthy Blueberry Foliage",
+    "pathogen": "None (Healthy)",
+    "severity": "None",
+    "symptoms": "Deep green glossy leaves, sturdy canes, and uniform vigor with zero stem blight or rust spots.",
+    "organic_remedies": [
+      "Maintain acidic soil pH (4.5 - 5.2) using elemental sulfur and organic pine bark mulch.",
+      "Apply kelp meal and fish hydrolysate during spring flush."
+    ],
+    "chemical_remedies": [
+      "No chemical interventions required."
+    ],
+    "preventive_practices": [
+      "Ensure drip irrigation to prevent crown rot (Phytophthora cinnamomi).",
+      "Annual winter pruning to remove weak and crossing canes."
+    ],
+    "weather_triggers": {
+      "ideal_temp_range": "18°C - 26°C",
+      "humidity_threshold": "50% - 70%",
+      "leaf_wetness_hours": "Low"
+    }
+  },
+  "Cherry_(including_sour)___Powdery_mildew": {
+    "crop": "Cherry",
+    "disease": "Powdery Mildew",
+    "pathogen": "Podosphaera clandestina (Fungus)",
+    "severity": "Medium",
+    "symptoms": "White powdery circular patches of mycelium on young leaves and succulent shoots; leaves curl upward and blister.",
+    "organic_remedies": [
+      "Spray horticultural mineral oil (1% emulsion) or neem oil (5 mL/L) at first sign of white mycelium.",
+      "Apply wettable sulfur at 3 g/L during vegetative growth (avoid if temperatures exceed 32°C).",
+      "Potassium silicate foliar spray to fortify epidermal cell walls."
+    ],
+    "chemical_remedies": [
+      "Apply Tebuconazole 25.9% EC at 0.75 mL/L or Trifloxystrobin 50% WG at 0.3 g/L.",
+      "Apply Azoxystrobin 23% SC at 1.0 mL/L in rotation with sterol inhibitors.",
+      "Spray every 10 to 14 days while new vegetative flushes emerge."
+    ],
+    "preventive_practices": [
+      "Avoid excessive nitrogen fertilization which produces excessively succulent growth.",
+      "Prune interior canopy shoots to improve cross-ventilation and sunlight penetration.",
+      "Avoid overhead sprinkler irrigation."
+    ],
+    "weather_triggers": {
+      "ideal_temp_range": "18°C - 27°C",
+      "humidity_threshold": "60% - 85%",
+      "leaf_wetness_hours": "Dry leaves with high ambient humidity"
+    }
+  },
+  "Cherry_(including_sour)___healthy": {
+    "crop": "Cherry",
+    "disease": "Healthy Cherry Foliage",
+    "pathogen": "None (Healthy)",
+    "severity": "None",
+    "symptoms": "Lush green, intact cherry leaves with smooth margins and no leaf curl or shot-hole perforations.",
+    "organic_remedies": [
+      "Apply well-decomposed organic manure and mycorrhizal inoculants around drip line."
+    ],
+    "chemical_remedies": [
+      "No chemical treatments needed."
+    ],
+    "preventive_practices": [
+      "Monitor bi-weekly for black cherry aphids and cherry fruit flies.",
+      "Maintain drip irrigation schedule and weed-free tree basins."
+    ],
+    "weather_triggers": {
+      "ideal_temp_range": "15°C - 25°C",
+      "humidity_threshold": "50% - 70%",
+      "leaf_wetness_hours": "Low"
+    }
+  },
+  "Corn_(maize)___Cercospora_leaf_spot Gray_leaf_spot": {
+    "crop": "Corn (Maize)",
+    "disease": "Gray Leaf Spot",
+    "pathogen": "Cercospora zeae-maydis (Fungus)",
+    "severity": "High",
+    "symptoms": "Small, tan necrotic spots with chlorotic halos that expand into long, narrow rectangular lesions restricted by leaf veins.",
+    "organic_remedies": [
+      "Apply foliar sprays of Trichoderma harzianum bio-fungicide at 5 g/L during early vegetative stages (V6-V8).",
+      "Incorporate bio-char and diverse crop compost into the soil to accelerate residue decomposition."
+    ],
+    "chemical_remedies": [
+      "Spray Pyraclostrobin + Fluxapyroxad (Priaxor) at recommended label rate during VT to R1 (tasseling to silking).",
+      "Apply Azoxystrobin + Difenoconazole at 1.0 mL/L if disease reaches ear leaf prior to tasseling.",
+      "Ensure application timing protects the ear leaf and top three leaves."
+    ],
+    "preventive_practices": [
+      "Practice strict 2-year crop rotation with non-host crops like soybean, alfalfa, or oats.",
+      "Utilize conservation tillage or deep plowing to bury infested corn stubble.",
+      "Select corn hybrids with high GLS resistance ratings."
+    ],
+    "weather_triggers": {
+      "ideal_temp_range": "24°C - 32°C",
+      "humidity_threshold": "> 90%",
+      "leaf_wetness_hours": "12+ continuous hours"
+    }
+  },
+  "Corn_(maize)___Common_rust_": {
+    "crop": "Corn (Maize)",
+    "disease": "Common Rust",
+    "pathogen": "Puccinia sorghi (Fungus)",
+    "severity": "Medium",
+    "symptoms": "Golden brown to cinnamon-brown powdery pustules (uredinia) scattered across both upper and lower leaf surfaces.",
+    "organic_remedies": [
+      "Spray wettable sulfur at 3 g/L or potassium bicarbonate at early symptom appearance.",
+      "Foliar spray with Bacillus amyloliquefaciens strain D747."
+    ],
+    "chemical_remedies": [
+      "Apply Mancozeb 75% WP at 2.5 g/L or Propiconazole 25% EC at 1.0 mL/L.",
+      "Spray Azoxystrobin 18.2% + Difenoconazole 11.4% SC at 1.0 mL/L if pustules appear before silking on susceptible hybrids."
+    ],
+    "preventive_practices": [
+      "Plant rust-resistant hybrids carrying Rp genes.",
+      "Plant early in the season to allow crops to mature before high rust spore loads arrive on southerly winds.",
+      "Maintain balanced soil phosphorus and potassium."
+    ],
+    "weather_triggers": {
+      "ideal_temp_range": "16°C - 25°C",
+      "humidity_threshold": "> 85%",
+      "leaf_wetness_hours": "6+ hours of dew/fog"
+    }
+  },
+  "Corn_(maize)___Northern_Leaf_Blight": {
+    "crop": "Corn (Maize)",
+    "disease": "Northern Corn Leaf Blight (NCLB)",
+    "pathogen": "Exserohilum turcicum (Fungus)",
+    "severity": "High",
+    "symptoms": "Large, cigar-shaped, grayish-green to tan lesions (2.5 to 15 cm long) with smooth margins, often coalescing to scorch entire leaves.",
+    "organic_remedies": [
+      "Foliar bio-control spray with Bacillus subtilis or Pseudomonas fluorescens at 5 mL/L.",
+      "Apply copper octanoate (soap) at vegetative stage V6."
+    ],
+    "chemical_remedies": [
+      "Apply Propiconazole 13.9% + Difenoconazole 13.9% at 1.0 mL/L or Azoxystrobin 23% SC at 1.0 mL/L.",
+      "Apply Pyraclostrobin at 1.25 L/ha when lesion threshold reaches 1 lesion per leaf prior to silking.",
+      "Ensure thorough spray coverage of the upper canopy."
+    ],
+    "preventive_practices": [
+      "Plant NCLB-resistant hybrid corn containing Ht1, Ht2, or Ht3 resistance genes.",
+      "Tillage management to bury crop debris where conidia overwinter.",
+      "Rotate out of corn for at least 1-2 seasons."
+    ],
+    "weather_triggers": {
+      "ideal_temp_range": "18°C - 27°C",
+      "humidity_threshold": "> 90%",
+      "leaf_wetness_hours": "6-18 hours"
+    }
+  },
+  "Corn_(maize)___healthy": {
+    "crop": "Corn (Maize)",
+    "disease": "Healthy Corn Foliage",
+    "pathogen": "None (Healthy)",
+    "severity": "None",
+    "symptoms": "Broad, vibrant deep-green leaves free of rust pustules, rectangular lesions, or wilting margins.",
+    "organic_remedies": [
+      "Maintain side-dressing of vermicompost and bio-fertilizers (Azotobacter & PSB)."
+    ],
+    "chemical_remedies": [
+      "No chemical fungicides necessary."
+    ],
+    "preventive_practices": [
+      "Ensure timely weed management in first 35 days (critical weed-free period).",
+      "Regular scouting for armyworm and stem borer egg masses."
+    ],
+    "weather_triggers": {
+      "ideal_temp_range": "20°C - 30°C",
+      "humidity_threshold": "50% - 75%",
+      "leaf_wetness_hours": "Low"
+    }
+  },
+  "Grape___Black_rot": {
+    "crop": "Grape",
+    "disease": "Black Rot",
+    "pathogen": "Guignardia bidwellii (Fungus)",
+    "severity": "Critical",
+    "symptoms": "Small reddish-brown circular spots on leaves with black margins and tiny black fruiting bodies (pycnidia); berries shrivel into hard black mummies.",
+    "organic_remedies": [
+      "Spray copper sulfate / hydrated lime (Bordeaux mixture 3-3-50) from bud break to veraison.",
+      "Apply potassium bicarbonate and sulfur alternately during vegetative flush.",
+      "Prune and destroy all mummified fruit clusters hanging on the vines or resting on the soil."
+    ],
+    "chemical_remedies": [
+      "Apply Mancozeb 75% WP at 2.5 g/L or Myclobutanil 10% WP at 1.0 g/L.",
+      "Apply Kresoxim-methyl 44.3% SC at 0.7 mL/L or Difenoconazole 25% EC at 0.5 mL/L.",
+      "Critical spray window is immediate pre-bloom through 4 weeks post-bloom."
+    ],
+    "preventive_practices": [
+      "Canopy shoot thinning and leaf pulling around fruit zone to maximize wind airflow and sunlight.",
+      "Maintain clean vineyard floor by disking or mulching over overwintered mummies.",
+      "Plant less susceptible cultivars (e.g., Norton or Chancellor)."
+    ],
+    "weather_triggers": {
+      "ideal_temp_range": "21°C - 29°C",
+      "humidity_threshold": "> 80%",
+      "leaf_wetness_hours": "6-12 hours"
+    }
+  },
+  "Grape___Esca_(Black_Measles)": {
+    "crop": "Grape",
+    "disease": "Esca (Black Measles / Trunk Disease)",
+    "pathogen": "Phaeomoniella chlamydospora & Fomitiporia mediterranea (Fungal Complex)",
+    "severity": "Critical",
+    "symptoms": "'Tiger-stripe' interveinal chlorosis and necrosis on leaves; purple or brown speckling on berries; vascular wood necrosis inside cane wood.",
+    "organic_remedies": [
+      "Apply Trichoderma atroviride pruning wound sealant immediately after winter pruning.",
+      "Spray copper oxychloride to protect freshly cut vines from airborne basidiospores.",
+      "No curative chemical exists; diseased vines require surgical trunk renewal."
+    ],
+    "chemical_remedies": [
+      "Paint large pruning cuts with Thiophanate-methyl or pyraclostrobin-based wound dressings within 24 hours of cutting.",
+      "Foliar application of phosphite-based systemic elicitors to slow decline."
+    ],
+    "preventive_practices": [
+      "Delay pruning until late in the dormant season (February/March) when wound healing is rapid.",
+      "Sterilize pruning shears between vines with 70% ethanol or 10% household bleach.",
+      "Uproot and burn severely decayed vines showing apoplexy (sudden vine collapse)."
+    ],
+    "weather_triggers": {
+      "ideal_temp_range": "25°C - 35°C",
+      "humidity_threshold": "> 70%",
+      "leaf_wetness_hours": "Rainfall during pruning season"
+    }
+  },
+  "Grape___Leaf_blight_(Isariopsis_Leaf_Spot)": {
+    "crop": "Grape",
+    "disease": "Isariopsis Leaf Blight (Phaeoisariopsis clavispora)",
+    "pathogen": "Pseudocercospora vitis / Phaeoisariopsis clavispora (Fungus)",
+    "severity": "Medium",
+    "symptoms": "Irregular dark brown to black necrotic spots with halos on older leaves; premature defoliation leading to exposed sunburnt fruit.",
+    "organic_remedies": [
+      "Spray copper hydroxide (Kocide) at 2.0 g/L or Bordeaux mixture (1%) after harvest.",
+      "Apply biological biocontrol agent Bacillus subtilis (Serenade) at 4 mL/L."
+    ],
+    "chemical_remedies": [
+      "Apply Carbendazim 50% WP at 1.0 g/L or Thiophanate Methyl 70% WP at 1.0 g/L.",
+      "Spray Azoxystrobin 23% SC at 1.0 mL/L or Mancozeb 75% WP at 2.5 g/L upon initial leaf spotting."
+    ],
+    "preventive_practices": [
+      "Remove and burn leaf litter following autumn senescence.",
+      "Ensure proper trellis shoot positioning to prevent dense, trapped moisture canopies.",
+      "Maintain adequate potassium nutrition to fortify leaf cell membranes."
+    ],
+    "weather_triggers": {
+      "ideal_temp_range": "22°C - 30°C",
+      "humidity_threshold": "> 85%",
+      "leaf_wetness_hours": "8+ hours"
+    }
+  },
+  "Grape___healthy": {
+    "crop": "Grape",
+    "disease": "Healthy Grape Foliage",
+    "pathogen": "None (Healthy)",
+    "severity": "None",
+    "symptoms": "Broad, vibrant dark-green grape leaves with healthy lobed margins and no spotting, powdery coating, or necrosis.",
+    "organic_remedies": [
+      "Apply balanced compost teas and organic mycorrhizal inoculants.",
+      "Maintain foliar calcium and boron sprays during pre-bloom to enhance fruit set."
+    ],
+    "chemical_remedies": [
+      "No chemical interventions required."
+    ],
+    "preventive_practices": [
+      "Routine canopy management (shoot tucking, suckering, and leaf pulling).",
+      "Soil moisture monitoring using tensiometers to avoid waterlogging."
+    ],
+    "weather_triggers": {
+      "ideal_temp_range": "20°C - 30°C",
+      "humidity_threshold": "40% - 65%",
+      "leaf_wetness_hours": "Low"
+    }
+  },
+  "Orange___Haunglongbing_(Citrus_greening)": {
+    "crop": "Orange",
+    "disease": "Citrus Greening (Huanglongbing / HLB)",
+    "pathogen": "Candidatus Liberibacter asiaticus (Bacteria vectored by Asian Citrus Psyllid)",
+    "severity": "Critical",
+    "symptoms": "Asymmetrical blotchy mottle chlorosis on leaves; yellow shoots; small, misshapen, lopsided fruit that stays green at base and tastes bitter.",
+    "organic_remedies": [
+      "Release natural biological control predator wasps (Tamarixia radiata) to parasitize citrus psyllid nymphs.",
+      "Apply high-grade horticultural narrow-range petroleum oils (1-2%) to suffocate adult psyllids and prevent egg laying.",
+      "Intensive foliar nutritional therapy (Zinc, Manganese, Iron chelate, Boron, Potassium) to prolong tree productivity."
+    ],
+    "chemical_remedies": [
+      "Control psyllid vectors with Imidacloprid 17.8% SL (soil drench) or Thiamethoxam 25% WG at 0.3 g/L.",
+      "Rotate with Dimethoate 30% EC or Chlorpyrifos during seasonal vegetative flush cycles.",
+      "Strict quarantine compliance: antibiotics (oxytetracycline injections) only where federally authorized."
+    ],
+    "preventive_practices": [
+      "Plant only certified disease-free grafted saplings from screenhouse nurseries.",
+      "Eradicate infected trees promptly to eliminate bacterial inocula for surrounding orchards.",
+      "Install yellow sticky traps to continuously monitor psyllid flight."
+    ],
+    "weather_triggers": {
+      "ideal_temp_range": "24°C - 32°C",
+      "humidity_threshold": "> 60%",
+      "leaf_wetness_hours": "Flushing cycles trigger vector feeding"
+    }
+  },
+  "Peach___Bacterial_spot": {
+    "crop": "Peach",
+    "disease": "Bacterial Spot",
+    "pathogen": "Xanthomonas arboricola pv. pruni (Bacteria)",
+    "severity": "High",
+    "symptoms": "Angular, water-soaked purple-brown lesions on leaves that drop out creating a 'shot-hole' appearance; deep pitted cracks on fruit.",
+    "organic_remedies": [
+      "Spray copper sulfate or copper octanoate during dormant season and post-harvest defoliation.",
+      "Apply Bacillus subtilis or Bacillus amyloliquefaciens biocontrol formulations during early petal fall.",
+      "Use zinc sulfate foliar sprays in autumn to facilitate timely leaf drop."
+    ],
+    "chemical_remedies": [
+      "Apply Oxytetracycline (Mycoshield) at 1.5 g/L starting at petal fall through shuck split.",
+      "Low-rate fixed copper sprays (Copper hydroxide at 0.5 g/L) with hydrated lime to minimize phytotoxicity.",
+      "Do not apply copper during high heat or slow drying conditions to prevent severe leaf scorch."
+    ],
+    "preventive_practices": [
+      "Plant resistant peach varieties like Candor, Dixired, Sentinel, or Redhaven.",
+      "Avoid orchard sites exposed to severe sandy wind abrasion which creates bacterial entry wounds.",
+      "Avoid overhead sprinkler irrigation."
+    ],
+    "weather_triggers": {
+      "ideal_temp_range": "21°C - 28°C",
+      "humidity_threshold": "> 85%",
+      "leaf_wetness_hours": "Rainy, windy periods"
+    }
+  },
+  "Peach___healthy": {
+    "crop": "Peach",
+    "disease": "Healthy Peach Foliage",
+    "pathogen": "None (Healthy)",
+    "severity": "None",
+    "symptoms": "Long, lanceolate, glossy green leaves without shot-hole perforations, leaf curl, or gumming lesions.",
+    "organic_remedies": [
+      "Maintain organic tree basin mulching with wood chips and compost."
+    ],
+    "chemical_remedies": [
+      "No chemical sprays required."
+    ],
+    "preventive_practices": [
+      "Apply standard dormant copper spray in late winter to prevent Taphrina deformans (Peach Leaf Curl).",
+      "Scout for peach tree borers around lower crown."
+    ],
+    "weather_triggers": {
+      "ideal_temp_range": "18°C - 28°C",
+      "humidity_threshold": "45% - 70%",
+      "leaf_wetness_hours": "Low"
+    }
+  },
+  "Pepper,_bell___Bacterial_spot": {
+    "crop": "Pepper (Bell)",
+    "disease": "Bacterial Leaf Spot",
+    "pathogen": "Xanthomonas campestris pv. vesicatoria (Bacteria)",
+    "severity": "High",
+    "symptoms": "Water-soaked, circular-to-irregular dark brown spots with yellow halos on leaves; leaves turn yellow and drop; blistered scabs on pepper fruit.",
+    "organic_remedies": [
+      "Spray copper hydroxide + Bacillus subtilis (Serenade) at 4 mL/L every 7 days.",
+      "Hot-water seed treatment at 50°C for 25 minutes prior to nursery sowing.",
+      "Foliar spray with biological systemic acquired resistance (SAR) inducers like chitosan."
+    ],
+    "chemical_remedies": [
+      "Apply Streptomycin sulfate (9%) + Tetracycline hydrochloride (1%) at 0.5 g/L (where registered).",
+      "Tank mix Copper Oxychloride 50% WP (2.5 g/L) with Mancozeb 75% WP (2.0 g/L) to overcome copper-tolerant bacterial strains.",
+      "Reapply after every heavy rain."
+    ],
+    "preventive_practices": [
+      "Use certified disease-free, pepper-spot resistant seed hybrids.",
+      "Strict 2 to 3-year crop rotation away from solanaceous crops (tomato, potato, eggplant).",
+      "Avoid working in or harvesting pepper fields while foliage is wet."
+    ],
+    "weather_triggers": {
+      "ideal_temp_range": "24°C - 30°C",
+      "humidity_threshold": "> 85%",
+      "leaf_wetness_hours": "Wind-driven rains"
+    }
+  },
+  "Pepper,_bell___healthy": {
+    "crop": "Pepper (Bell)",
+    "disease": "Healthy Bell Pepper Foliage",
+    "pathogen": "None (Healthy)",
+    "severity": "None",
+    "symptoms": "Glossy, uniform emerald-green foliage with vigorous terminal growth and no chlorosis, wilting, or necrotic spots.",
+    "organic_remedies": [
+      "Top-dress with vermicompost and potassium-rich bio-extracts."
+    ],
+    "chemical_remedies": [
+      "No chemical sprays required."
+    ],
+    "preventive_practices": [
+      "Maintain consistent drip fertigation to avoid blossom end rot (calcium deficiency).",
+      "Install reflective silver mulches to repel thrips and aphids."
+    ],
+    "weather_triggers": {
+      "ideal_temp_range": "20°C - 30°C",
+      "humidity_threshold": "50% - 70%",
+      "leaf_wetness_hours": "Low"
+    }
+  },
+  "Potato___Early_blight": {
+    "crop": "Potato",
+    "disease": "Early Blight",
+    "pathogen": "Alternaria solani (Fungus)",
+    "severity": "High",
+    "symptoms": "Characteristic dark brown, concentric ring lesions ('target-board' pattern) surrounded by chlorotic yellow halo on older lower leaves.",
+    "organic_remedies": [
+      "Apply copper sulfate or copper soap (0.5%) at first symptom detection.",
+      "Bio-fungicide foliar spray with Trichoderma harzianum or Bacillus amyloliquefaciens at 5 g/L.",
+      "Foliar spray with neem oil extract (10,000 ppm) at 3 mL/L."
+    ],
+    "chemical_remedies": [
+      "Apply Chlorothalonil 75% WP at 2.0 g/L or Mancozeb 75% WP at 2.5 g/L as protectants.",
+      "For curative systemic action, apply Azoxystrobin 23% SC at 1.0 mL/L or Difenoconazole 25% EC at 0.5 mL/L.",
+      "Alternate FRAC groups to prevent strobilurin resistance."
+    ],
+    "preventive_practices": [
+      "Ensure balanced nitrogen fertilization; avoid nutrient stress during tuber bulking.",
+      "Maintain drip irrigation; do not irrigate in late afternoon or evening.",
+      "Allow 3-year crop rotation between potato and other nightshade crops."
+    ],
+    "weather_triggers": {
+      "ideal_temp_range": "24°C - 29°C",
+      "humidity_threshold": "> 80%",
+      "leaf_wetness_hours": "Alternating wet and dry periods"
+    }
+  },
+  "Potato___Late_blight": {
+    "crop": "Potato",
+    "disease": "Late Blight",
+    "pathogen": "Phytophthora infestans (Oomycete)",
+    "severity": "Critical",
+    "symptoms": "Large, irregular water-soaked pale-green to dark brown lesions that rapidly turn black; delicate white fungal mold on leaf undersides in high humidity; tuber rot.",
+    "organic_remedies": [
+      "Spray copper hydroxide (Kocide 3000) at 2.0 g/L prior to rain events.",
+      "Bio-pesticide spray with Bacillus subtilis at 5 mL/L.",
+      "Destroy and bag all infected plants immediately to prevent airborne sporangia spread."
+    ],
+    "chemical_remedies": [
+      "Apply Cymoxanil 8% + Mancozeb 64% WP (Curzate) at 2.5 g/L or Dimethomorph 50% WP at 1.0 g/L.",
+      "Apply Metalaxyl-M 4% + Mancozeb 64% WP (Ridomil Gold) at 2.5 g/L at disease outbreak.",
+      "Mandatory spray interval: 5 to 7 days during cool, rainy, fog-heavy periods."
+    ],
+    "preventive_practices": [
+      "Plant only certified pathogen-free seed tubers.",
+      "Hilling/ridging soil adequately around stems to protect shallow tubers from rain-washed zoospores.",
+      "Kill potato vine foliage (desiccation) 2 weeks before harvest."
+    ],
+    "weather_triggers": {
+      "ideal_temp_range": "15°C - 22°C",
+      "humidity_threshold": "> 90%",
+      "leaf_wetness_hours": "10+ hours continuous leaf wetness"
+    }
+  },
+  "Potato___healthy": {
+    "crop": "Potato",
+    "disease": "Healthy Potato Foliage",
+    "pathogen": "None (Healthy)",
+    "severity": "None",
+    "symptoms": "Lush, dark-green canopy, sturdy stems, upright posture with zero water-soaked spots, target rings, or wilting.",
+    "organic_remedies": [
+      "Foliar spray with sea kelp extract (2 mL/L) to strengthen plant stress tolerance.",
+      "Ensure sufficient potassium sulfate soil application."
+    ],
+    "chemical_remedies": [
+      "No chemical sprays needed."
+    ],
+    "preventive_practices": [
+      "Monitor fields with potato late blight forecasting tools.",
+      "Regular scouting for Colorado potato beetle and potato leafhopper."
+    ],
+    "weather_triggers": {
+      "ideal_temp_range": "16°C - 24°C",
+      "humidity_threshold": "50% - 75%",
+      "leaf_wetness_hours": "Low"
+    }
+  },
+  "Raspberry___healthy": {
+    "crop": "Raspberry",
+    "disease": "Healthy Raspberry Foliage",
+    "pathogen": "None (Healthy)",
+    "severity": "None",
+    "symptoms": "Vigorous serrated compound leaves with vivid green coloration, sturdy primocanes, and zero rust pustules or powdery mildew.",
+    "organic_remedies": [
+      "Mulch root zone with organic sawdust or wood chips to preserve root moisture.",
+      "Apply balanced organic compost."
+    ],
+    "chemical_remedies": [
+      "No chemicals required."
+    ],
+    "preventive_practices": [
+      "Trellis canes to maintain upright air circulation.",
+      "Remove dead floricanes immediately after fruiting."
+    ],
+    "weather_triggers": {
+      "ideal_temp_range": "16°C - 24°C",
+      "humidity_threshold": "50% - 70%",
+      "leaf_wetness_hours": "Low"
+    }
+  },
+  "Soybean___healthy": {
+    "crop": "Soybean",
+    "disease": "Healthy Soybean Foliage",
+    "pathogen": "None (Healthy)",
+    "severity": "None",
+    "symptoms": "Trifoliate leaves exhibiting healthy, uniform green coloration, robust nodulation at root crown, and zero frogeye spots.",
+    "organic_remedies": [
+      "Inoculate seeds with Bradyrhizobium japonicum to maximize biological nitrogen fixation."
+    ],
+    "chemical_remedies": [
+      "No chemicals needed."
+    ],
+    "preventive_practices": [
+      "Regular scouting for soybean aphid and pod borer.",
+      "Maintain weed canopy control in early growth stages."
+    ],
+    "weather_triggers": {
+      "ideal_temp_range": "20°C - 30°C",
+      "humidity_threshold": "50% - 75%",
+      "leaf_wetness_hours": "Low"
+    }
+  },
+  "Squash___Powdery_mildew": {
+    "crop": "Squash",
+    "disease": "Powdery Mildew",
+    "pathogen": "Podosphaera xanthii (Fungus)",
+    "severity": "High",
+    "symptoms": "Talcum powder-like white fungal growth covering upper and lower surfaces of leaves and stems; leaves turn yellow, brown, and become brittle.",
+    "organic_remedies": [
+      "Apply potassium bicarbonate (5 g/L) + horticultural oil (5 mL/L) to rapidly destroy fungal hyphae.",
+      "Spray 40% cow milk / 60% water solution in direct sunlight; lactoferrin generates antiseptic free radicals.",
+      "Neem oil (cold-pressed) at 5 mL/L with mild dish soap emulsifier."
+    ],
+    "chemical_remedies": [
+      "Apply Myclobutanil 10% WP at 1.0 g/L or Triflumizole at labeled rates.",
+      "Apply Azoxystrobin 23% SC at 1.0 mL/L or Cyflufenamid 5% EW at 0.5 mL/L.",
+      "Begin fungicide applications at first sighting of colonies on lower leaf undersides."
+    ],
+    "preventive_practices": [
+      "Plant resistant cucurbit varieties (labeled PMR).",
+      "Provide generous spacing (at least 90 cm between plants) to minimize humidity stagnation.",
+      "Drip irrigate only; avoid wetting sprawling leaves."
+    ],
+    "weather_triggers": {
+      "ideal_temp_range": "20°C - 28°C",
+      "humidity_threshold": "50% - 85%",
+      "leaf_wetness_hours": "Dry leaves with humid shaded microclimate"
+    }
+  },
+  "Strawberry___Leaf_scorch": {
+    "crop": "Strawberry",
+    "disease": "Leaf Scorch",
+    "pathogen": "Diplocarpon earlianum (Fungus)",
+    "severity": "Medium",
+    "symptoms": "Numerous small, dark purple or reddish irregular blotches on leaves; centers do not turn white; severe lesions cause leaves to curl, brown, and scorch.",
+    "organic_remedies": [
+      "Apply copper sulfate or copper octanoate (soap) at early spring crown emergence.",
+      "Spray bio-fungicide Bacillus amyloliquefaciens at 4 mL/L.",
+      "Prune and destroy heavily blighted leaves after the harvest renovation period."
+    ],
+    "chemical_remedies": [
+      "Apply Captan 50% WP at 2.0 g/L or Thiophanate-methyl 70% WP at 1.0 g/L.",
+      "Apply Azoxystrobin 23% SC at 1.0 mL/L or Pyraclostrobin 20% WG at 0.8 g/L.",
+      "Re-treat every 10-14 days during wet spring flushes."
+    ],
+    "preventive_practices": [
+      "Plant on raised beds covered with straw mulch or black plastic to prevent soil splash.",
+      "Use certified disease-free strawberry runner plants.",
+      "Mow and renovate June-bearing fields immediately following last harvest."
+    ],
+    "weather_triggers": {
+      "ideal_temp_range": "18°C - 26°C",
+      "humidity_threshold": "> 85%",
+      "leaf_wetness_hours": "8+ hours continuous wetness"
+    }
+  },
+  "Strawberry___healthy": {
+    "crop": "Strawberry",
+    "disease": "Healthy Strawberry Foliage",
+    "pathogen": "None (Healthy)",
+    "severity": "None",
+    "symptoms": "Tri-foliate, bright emerald-green leaves with crisp serrations, robust crown vigor, and zero necrotic blotches.",
+    "organic_remedies": [
+      "Side-dress with well-rotted compost and bone meal for phosphorus."
+    ],
+    "chemical_remedies": [
+      "No chemical sprays needed."
+    ],
+    "preventive_practices": [
+      "Maintain clean straw mulch to keep berries and lower foliage off wet soil.",
+      "Monitor for two-spotted spider mites on leaf undersides."
+    ],
+    "weather_triggers": {
+      "ideal_temp_range": "15°C - 25°C",
+      "humidity_threshold": "50% - 70%",
+      "leaf_wetness_hours": "Low"
+    }
+  },
+  "Tomato___Bacterial_spot": {
+    "crop": "Tomato",
+    "disease": "Bacterial Spot",
+    "pathogen": "Xanthomonas perforans / Xanthomonas vesicatoria (Bacteria)",
+    "severity": "High",
+    "symptoms": "Small (less than 3 mm), dark brown water-soaked circular lesions with chlorotic halos; lesions coalesce causing general defoliation; scab-like spots on green tomatoes.",
+    "organic_remedies": [
+      "Apply Copper octanoate / Copper Hydroxide (2 g/L) + Bacillus amyloliquefaciens (3 g/L).",
+      "Pre-soak tomato seeds in hot water (50°C for 25 minutes) or 1.3% sodium hypochlorite solution.",
+      "Spray bacteriophage biological formulations (AgriPhage) specific to Xanthomonas."
+    ],
+    "chemical_remedies": [
+      "Tank mix Copper Oxychloride 50% WP (2.5 g/L) with Mancozeb 75% WP (2.0 g/L) to inactivate copper-tolerant bacterial populations.",
+      "Apply Kasugamycin 3% SL at 1.5 mL/L or Streptomycin formulations where legally registered.",
+      "Avoid spraying during high humidity to minimize leaf surface wetness duration."
+    ],
+    "preventive_practices": [
+      "Never use overhead sprinkler irrigation; always use drip tape underneath plastic mulch.",
+      "Do not enter, prune, or stake tomato plants while leaves are wet from dew or rain.",
+      "Perform minimum 2-year crop rotation away from solanaceous crops."
+    ],
+    "weather_triggers": {
+      "ideal_temp_range": "24°C - 30°C",
+      "humidity_threshold": "> 85%",
+      "leaf_wetness_hours": "Heavy driving rain or prolonged overhead wetting"
+    }
+  },
+  "Tomato___Early_blight": {
+    "crop": "Tomato",
+    "disease": "Early Blight",
+    "pathogen": "Alternaria solani / Alternaria tomatophila (Fungus)",
+    "severity": "High",
+    "symptoms": "Dark brown to black necrotic spots with distinct concentric rings ('bullseye' / target pattern) surrounded by yellow chlorosis, starting on lower older leaves.",
+    "organic_remedies": [
+      "Apply Copper Hydroxide (Kocide) at 2.0 g/L or Bordeaux mixture (1%) at first sign.",
+      "Foliar spray with Trichoderma viride or Bacillus subtilis at 5 mL/L.",
+      "Strip off the lowest 30 cm of tomato foliage once plants reach 1 meter to prevent soil splash inoculation."
+    ],
+    "chemical_remedies": [
+      "Apply Mancozeb 75% WP at 2.5 g/L or Chlorothalonil 75% WP at 2.0 g/L at early vegetative stage.",
+      "Apply Azoxystrobin 23% SC at 1.0 mL/L or Difenoconazole 25% EC at 0.5 mL/L when lesions appear.",
+      "Spray every 7 to 10 days during warm, humid weather."
+    ],
+    "preventive_practices": [
+      "Stake and cage tomato plants securely to keep foliage off ground level.",
+      "Apply 5-8 cm of clean organic straw mulch around plant base.",
+      "Rotate out of solanaceous crops for 3 consecutive years."
+    ],
+    "weather_triggers": {
+      "ideal_temp_range": "24°C - 29°C",
+      "humidity_threshold": "> 80%",
+      "leaf_wetness_hours": "Alternating wet and dry humid cycles"
+    }
+  },
+  "Tomato___Late_blight": {
+    "crop": "Tomato",
+    "disease": "Late Blight",
+    "pathogen": "Phytophthora infestans (Oomycete)",
+    "severity": "Critical",
+    "symptoms": "Large, irregular greasy water-soaked pale greenish-black lesions on leaves and petioles; white fuzzy sporulation on leaf undersides in high humidity; stems turn brown and collapse.",
+    "organic_remedies": [
+      "Spray copper sulfate or copper hydroxide protectant (2.5 g/L) before forecast rain periods.",
+      "Bio-fungicide spray with Bacillus subtilis (Serenade) at 5 mL/L.",
+      "Immediately cull and destroy infected plants; do not compost in home compost piles."
+    ],
+    "chemical_remedies": [
+      "Apply Cymoxanil 8% + Mancozeb 64% WP at 2.5 g/L or Dimethomorph 50% WP at 1.0 g/L.",
+      "Apply Metalaxyl-M 4% + Mancozeb 64% WP at 2.5 g/L at first disease report in the district.",
+      "Spray interval must be tightened to 5 days during persistent cool, rainy, overcast weather."
+    ],
+    "preventive_practices": [
+      "Plant late blight-resistant varieties (e.g., Mountain Magic, Defiant PHR, Plum Regal).",
+      "Ensure wide plant spacing (60-90 cm) for maximum canopy airflow.",
+      "Never compost late-blight infected foliage or fruit."
+    ],
+    "weather_triggers": {
+      "ideal_temp_range": "15°C - 22°C",
+      "humidity_threshold": "> 90%",
+      "leaf_wetness_hours": "10+ hours continuous leaf moisture"
+    }
+  },
+  "Tomato___Leaf_Mold": {
+    "crop": "Tomato",
+    "disease": "Leaf Mold",
+    "pathogen": "Passalora fulva / Cladosporium fulvum (Fungus)",
+    "severity": "Medium",
+    "symptoms": "Pale yellow or light-green spots with indistinct margins on upper leaf surface; olive-green to brownish velvety mold growth on the corresponding underside.",
+    "organic_remedies": [
+      "Apply copper octanoate (copper soap) or wettable sulfur (2 g/L) on leaf undersides.",
+      "Bio-control spray with Bacillus subtilis at 4 mL/L.",
+      "Prune lower older leaves to open up dense lower canopy in greenhouse environments."
+    ],
+    "chemical_remedies": [
+      "Apply Chlorothalonil 75% WP at 2.0 g/L or Mancozeb 75% WP at 2.5 g/L.",
+      "Apply Difenoconazole 25% EC at 0.5 mL/L or Boscalid + Pyraclostrobin.",
+      "Ensure spray nozzles target the undersides of the leaves where sporulation occurs."
+    ],
+    "preventive_practices": [
+      "Maintain greenhouse or tunnel relative humidity strictly below 85% with exhaust fans.",
+      "Heat and ventilate greenhouse at dusk to prevent condensation on foliage.",
+      "Plant resistant tomato cultivars with Cf resistance genes."
+    ],
+    "weather_triggers": {
+      "ideal_temp_range": "21°C - 24°C",
+      "humidity_threshold": "> 85%",
+      "leaf_wetness_hours": "High relative humidity in still air"
+    }
+  },
+  "Tomato___Septoria_leaf_spot": {
+    "crop": "Tomato",
+    "disease": "Septoria Leaf Spot",
+    "pathogen": "Septoria lycopersici (Fungus)",
+    "severity": "High",
+    "symptoms": "Numerous small, circular spots (2-3 mm) with dark brown borders and distinctly gray or tan centers containing tiny black specks (pycnidia); leaves turn yellow and drop.",
+    "organic_remedies": [
+      "Apply fixed copper fungicide (copper hydroxide) at 2.0 g/L every 7-10 days.",
+      "Foliar spray with Bacillus amyloliquefaciens bio-fungicide (4 g/L).",
+      "Prune off infected lower leaves immediately upon appearance."
+    ],
+    "chemical_remedies": [
+      "Apply Chlorothalonil 75% WP at 2.0 g/L or Mancozeb 75% WP at 2.5 g/L as protective sprays.",
+      "Apply Azoxystrobin 23% SC at 1.0 mL/L or Pyraclostrobin at label rate.",
+      "Begin fungicide applications early before disease spreads to the upper third of the plant."
+    ],
+    "preventive_practices": [
+      "Apply heavy straw or plastic mulch to create a barrier against soil-borne fungal spores.",
+      "Strict weed control to eliminate solanaceous weed hosts (horse nettle, black nightshade).",
+      "Clean garden debris thoroughly in autumn and practice 3-year crop rotation."
+    ],
+    "weather_triggers": {
+      "ideal_temp_range": "20°C - 26°C",
+      "humidity_threshold": "> 85%",
+      "leaf_wetness_hours": "48 hours of wet weather or frequent rain"
+    }
+  },
+  "Tomato___Spider_mites Two-spotted_spider_mite": {
+    "crop": "Tomato",
+    "disease": "Two-Spotted Spider Mite Infestation",
+    "pathogen": "Tetranychus urticae (Arachnid Pest)",
+    "severity": "High",
+    "symptoms": "Fine yellow or white stippling on upper leaf surfaces; bronze or scorched appearance; fine delicate webbing on leaf undersides and terminal shoots.",
+    "organic_remedies": [
+      "Release predatory mites (Phytoseiulus persimilis or Neoseiulus californicus) at 5-10 per m².",
+      "Spray cold-pressed neem oil (5 mL/L) or potassium salts of fatty acids (insecticidal soap) at 10 mL/L.",
+      "Spray rosemary oil or thyme oil-based botanical miticides."
+    ],
+    "chemical_remedies": [
+      "Apply Spiromesifen 22.9% SC at 1.0 mL/L or Abamectin 1.9% EC at 0.5 mL/L.",
+      "Apply Fenpyroximate 5% EC at 1.0 mL/L or Bifenazate 24% SC at 0.75 mL/L.",
+      "Always rotate acaricide chemical modes of action; mites develop resistance rapidly."
+    ],
+    "preventive_practices": [
+      "Avoid broad-spectrum synthetic pyrethroid sprays which kill beneficial predator mites.",
+      "Maintain adequate irrigation; drought-stressed plants are preferred mite hosts.",
+      "Hose down dusty field perimeters to reduce dust-facilitated mite outbreaks."
+    ],
+    "weather_triggers": {
+      "ideal_temp_range": "27°C - 38°C",
+      "humidity_threshold": "< 50%",
+      "leaf_wetness_hours": "Hot, dry, and dusty microclimates"
+    }
+  },
+  "Tomato___Target_Spot": {
+    "crop": "Tomato",
+    "disease": "Target Spot",
+    "pathogen": "Corynespora cassiicola (Fungus)",
+    "severity": "High",
+    "symptoms": "Pinpoint brown lesions with yellow halos expanding into circular necrotic spots with light brown centers and faint concentric zones; fruit develops sunken lesions.",
+    "organic_remedies": [
+      "Apply copper hydroxide + Bacillus subtilis bio-fungicide at 4 g/L.",
+      "Prune dense lower foliage to facilitate rapid air exchange and light penetration.",
+      "Spray potassium bicarbonate at 5 g/L."
+    ],
+    "chemical_remedies": [
+      "Apply Azoxystrobin + Difenoconazole at 1.0 mL/L or Fluxapyroxad + Pyraclostrobin.",
+      "Apply Chlorothalonil 75% WP at 2.0 g/L or Mancozeb 75% WP at 2.5 g/L as preventive cover.",
+      "Maintain 7 to 10 day spray cycle during rainy tropical periods."
+    ],
+    "preventive_practices": [
+      "Ensure proper row orientation with prevailing wind for canopy ventilation.",
+      "Avoid excessive nitrogen fertilization.",
+      "Deep plow crop residues immediately after final harvest."
+    ],
+    "weather_triggers": {
+      "ideal_temp_range": "25°C - 32°C",
+      "humidity_threshold": "> 85%",
+      "leaf_wetness_hours": "12+ hours"
+    }
+  },
+  "Tomato___Tomato_Yellow_Leaf_Curl_Virus": {
+    "crop": "Tomato",
+    "disease": "Tomato Yellow Leaf Curl Virus (TYLCV)",
+    "pathogen": "Begomovirus (Vectored by Whitefly Bemisia tabaci)",
+    "severity": "Critical",
+    "symptoms": "Severe upward cupping and curling of leaf margins; stunted chlorotic leaves with mottled yellowing; bushy upright plant dwarfism; complete fruit drop.",
+    "organic_remedies": [
+      "Install yellow sticky cards (1 trap per 100 m²) to trap adult whiteflies.",
+      "Spray cold-pressed neem oil (10,000 ppm) at 3 mL/L or Beauveria bassiana entomopathogenic fungus at 5 g/L.",
+      "Cover young nursery beds with 50-mesh insect-proof screening."
+    ],
+    "chemical_remedies": [
+      "No direct chemical antiviral cure exists for infected plants; control vector whitefly.",
+      "Apply Dinotefuran 20% SG at 0.5 g/L or Thiamethoxam 25% WG at 0.3 g/L.",
+      "Apply Pyriproxyfen 10% EC at 1.0 mL/L (insect growth regulator) to break whitefly reproduction."
+    ],
+    "preventive_practices": [
+      "Plant TYLCV-resistant hybrids with Ty-1, Ty-2, or Ty-3 resistance genes.",
+      "Use UV-reflective silver plastic mulches to deter landing whiteflies.",
+      "Rogue out and bury virus-infected plants immediately to prevent field-wide vector spread."
+    ],
+    "weather_triggers": {
+      "ideal_temp_range": "26°C - 35°C",
+      "humidity_threshold": "< 60%",
+      "leaf_wetness_hours": "Dry, warm seasons favor whitefly population explosions"
+    }
+  },
+  "Tomato___Tomato_mosaic_virus": {
+    "crop": "Tomato",
+    "disease": "Tomato Mosaic Virus (ToMV)",
+    "pathogen": "Tobamovirus (Mechanically Transmitted)",
+    "severity": "Critical",
+    "symptoms": "Mottled light and dark green mosaic patterns on leaves; blistered, distorted or strap-like 'shoestring' leaves; internal brown necrosis in fruit wall.",
+    "organic_remedies": [
+      "Soak seeds in 10% trisodium phosphate (TSP) solution for 30 minutes before sowing.",
+      "Disinfect hands and pruning tools in non-fat dry skim milk (20% solution) to neutralize virus particles.",
+      "Destroy and safely bury infected plants; do not leave residues on soil surface."
+    ],
+    "chemical_remedies": [
+      "No chemical viricides exist. Control relies entirely on sanitation and genetic resistance.",
+      "Spray chitosan or acibenzolar-S-methyl (Actigard) as systemic acquired resistance (SAR) elicitors on surrounding healthy crops."
+    ],
+    "preventive_practices": [
+      "Plant tobacco/tomato mosaic virus-resistant cultivars carrying Tm-2 or Tm-2^2 genes.",
+      "Strict worker hygiene: no tobacco smoking or chewing near tomato fields (tobacco carries mosaic virus).",
+      "Wash all stakes, cages, and nursery trays with 10% bleach before reuse."
+    ],
+    "weather_triggers": {
+      "ideal_temp_range": "20°C - 28°C",
+      "humidity_threshold": "Any",
+      "leaf_wetness_hours": "Mechanically spread by touch, pruning, and wind brushing"
+    }
+  },
+  "Tomato___healthy": {
+    "crop": "Tomato",
+    "disease": "Healthy Tomato Foliage",
+    "pathogen": "None (Healthy)",
+    "severity": "None",
+    "symptoms": "Vigorous, dark-green compound foliage with strong terminal growth, sturdy stems, and no chlorotic spotting or leaf curl.",
+    "organic_remedies": [
+      "Top-dress with well-cured compost and liquid vermiwash (50 mL/L).",
+      "Spray seaweed extract (2 mL/L) every 14 days during flowering to boost fruit set."
+    ],
+    "chemical_remedies": [
+      "No chemicals required."
+    ],
+    "preventive_practices": [
+      "Maintain consistent drip irrigation to avoid fruit cracking and blossom end rot.",
+      "Ensure proper staking and bottom pruning to maintain airflow."
+    ],
+    "weather_triggers": {
+      "ideal_temp_range": "20°C - 28°C",
+      "humidity_threshold": "50% - 70%",
+      "leaf_wetness_hours": "Low"
+    }
+  }
+}
