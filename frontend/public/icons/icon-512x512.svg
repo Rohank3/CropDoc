@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#064e3b" />
+      <stop offset="100%" stop-color="#022c22" />
+    </linearGradient>
+    <linearGradient id="leafGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#34d399" />
+      <stop offset="100%" stop-color="#059669" />
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="108" fill="url(#bgGrad)"/>
+  <!-- Leaf outline -->
+  <path d="M256 96 C360 96 416 160 416 264 C416 368 320 416 256 416 C192 416 96 368 96 264 C96 160 152 96 256 96 Z" fill="url(#leafGrad)" opacity="0.95"/>
+  <!-- Leaf Stem & Veins -->
+  <path d="M256 120 L256 390" stroke="#ecfdf5" stroke-width="12" stroke-linecap="round"/>
+  <path d="M256 200 Q310 180 340 160" stroke="#ecfdf5" stroke-width="8" stroke-linecap="round" fill="none"/>
+  <path d="M256 250 Q200 230 170 210" stroke="#ecfdf5" stroke-width="8" stroke-linecap="round" fill="none"/>
+  <path d="M256 300 Q320 280 350 260" stroke="#ecfdf5" stroke-width="8" stroke-linecap="round" fill="none"/>
+  <path d="M256 340 Q210 320 180 300" stroke="#ecfdf5" stroke-width="8" stroke-linecap="round" fill="none"/>
+  <!-- Cross Badge (Doc / Health) -->
+  <circle cx="370" cy="370" r="74" fill="#10b981" stroke="#ffffff" stroke-width="10"/>
+  <rect x="355" y="325" width="30" height="90" rx="6" fill="#ffffff"/>
+  <rect x="325" y="355" width="90" height="30" rx="6" fill="#ffffff"/>
+</svg>
