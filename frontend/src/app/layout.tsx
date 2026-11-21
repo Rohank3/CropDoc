@@ -1,19 +1,16 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const plusJakartaSans = Plus_Jakarta_Sans({
+  variable: "--font-plus-jakarta-sans",
   subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800"],
+  display: "swap"
 });
 
 export const viewport: Viewport = {
-  themeColor: "#059669",
+  themeColor: "#15803d",
   width: "device-width",
   initialScale: 1,
   maximumScale: 1,
@@ -21,7 +18,7 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "CropDoc — AI Crop Disease Doctor & Farm Weather Guardian",
+  title: "CropDoc — Plant Pathology & Agricultural Advisory",
   description: "Diagnose crop diseases instantly with computer vision, receive verified organic and chemical remedies, and track agro-weather outbreak risks directly from your smartphone.",
   manifest: "/manifest.json",
   icons: {
@@ -30,7 +27,7 @@ export const metadata: Metadata = {
   },
   appleWebApp: {
     capable: true,
-    statusBarStyle: "black-translucent",
+    statusBarStyle: "default",
     title: "CropDoc"
   }
 };
@@ -43,9 +40,9 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${plusJakartaSans.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-slate-950 text-slate-100 selection:bg-emerald-500 selection:text-emerald-950">
+      <body className="min-h-full flex flex-col bg-[#F8FAF8] text-stone-900 selection:bg-emerald-100 selection:text-emerald-900 font-sans">
         {children}
       </body>
     </html>
