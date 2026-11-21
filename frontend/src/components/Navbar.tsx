@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Leaf, Download, Globe, Clock, CloudSun, ShieldCheck, Cpu } from "lucide-react";
+import { Leaf, Download, Globe, Clock, CloudSun, Shield } from "lucide-react";
 import { Language } from "@/types";
 import { translations } from "@/lib/i18n";
 import { checkBackendHealth } from "@/lib/api";
@@ -33,7 +33,7 @@ export function Navbar({
     online: boolean;
     cuda: boolean;
     device: string;
-  }>({ online: false, cuda: false, device: "Checking..." });
+  }>({ online: false, cuda: false, device: "Connecting..." });
 
   useEffect(() => {
     const handleBeforeInstall = (e: Event) => {
@@ -82,26 +82,26 @@ export function Navbar({
   };
 
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-emerald-900/40 bg-emerald-950/90 backdrop-blur-md">
+    <header className="sticky top-0 z-40 w-full border-b border-stone-200/80 bg-white/90 backdrop-blur-md">
       <div className="mx-auto flex max-w-5xl items-center justify-between px-4 py-3 sm:px-6">
         {/* Brand */}
         <div 
           onClick={() => onTabChange("scan")}
-          className="group flex cursor-pointer items-center gap-2.5 transition-transform active:scale-95"
+          className="group flex cursor-pointer items-center gap-2.5 transition-transform active:scale-[0.98]"
         >
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-400 to-emerald-600 shadow-lg shadow-emerald-500/20 ring-2 ring-emerald-400/30">
-            <Leaf className="h-5 w-5 text-emerald-950 transition-transform group-hover:rotate-12" />
+          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-emerald-800 text-white shadow-xs">
+            <Leaf className="h-4.5 w-4.5" />
           </div>
           <div>
             <div className="flex items-center gap-1.5">
-              <span className="text-xl font-bold tracking-tight text-white">
+              <span className="text-base font-bold tracking-tight text-stone-900 sm:text-lg">
                 {t.appName}
               </span>
-              <span className="rounded-full bg-emerald-500/20 px-2 py-0.5 text-[10px] font-semibold tracking-wider text-emerald-300 uppercase ring-1 ring-emerald-500/30">
+              <span className="rounded-md bg-stone-100 px-1.5 py-0.5 text-[10px] font-semibold text-stone-600 uppercase">
                 PWA
               </span>
             </div>
-            <p className="hidden text-xs text-emerald-300/80 sm:block">
+            <p className="hidden text-xs text-stone-500 sm:block">
               {t.tagline}
             </p>
           </div>
@@ -109,34 +109,33 @@ export function Navbar({
 
         {/* Action Controls */}
         <div className="flex items-center gap-2">
-          {/* Backend Hardware Pill */}
-          <div className="hidden items-center gap-1.5 rounded-lg border border-emerald-800/60 bg-emerald-900/40 px-2.5 py-1 text-xs text-emerald-200 md:flex">
-            <div
+          {/* Subtle System Status Pill */}
+          <div className="hidden items-center gap-1.5 rounded-lg border border-stone-200 bg-stone-50 px-2.5 py-1 text-xs text-stone-600 md:flex">
+            <span
               className={`h-2 w-2 rounded-full ${
-                backendStatus.online ? "bg-emerald-400 animate-pulse" : "bg-amber-400"
+                backendStatus.online ? "bg-emerald-600" : "bg-amber-500"
               }`}
             />
-            <Cpu className="h-3.5 w-3.5 text-emerald-400" />
-            <span className="font-mono text-[11px]">
-              {backendStatus.online ? backendStatus.device : "API Offline"}
+            <span className="text-[11px] font-medium text-stone-700">
+              {backendStatus.online ? backendStatus.device : "Offline"}
             </span>
           </div>
 
           {/* Language Toggle */}
           <button
             onClick={() => onLanguageChange(lang === "en" ? "hi" : "en")}
-            className="flex items-center gap-1.5 rounded-xl border border-emerald-700/50 bg-emerald-900/60 px-2.5 py-1.5 text-xs font-semibold text-emerald-100 transition-all hover:border-emerald-500 hover:bg-emerald-800 focus-visible:ring-2 focus-visible:ring-emerald-400 active:scale-95"
+            className="flex items-center gap-1.5 rounded-lg border border-stone-200 bg-white px-2.5 py-1.5 text-xs font-semibold text-stone-700 transition-colors hover:bg-stone-50 hover:border-stone-300 active:scale-95 shadow-2xs"
             aria-label="Toggle Language"
           >
-            <Globe className="h-3.5 w-3.5 text-emerald-400" />
+            <Globe className="h-3.5 w-3.5 text-stone-500" />
             <span>{lang === "en" ? "हिन्दी" : "English"}</span>
           </button>
 
-          {/* PWA Install Trigger */}
+          {/* PWA Install Button */}
           {isInstallable && (
             <button
               onClick={handleInstallClick}
-              className="flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 px-3 py-1.5 text-xs font-semibold text-white shadow-md shadow-emerald-500/20 transition-all hover:brightness-110 active:scale-95"
+              className="flex items-center gap-1.5 rounded-lg bg-emerald-800 px-3 py-1.5 text-xs font-semibold text-white shadow-xs transition-colors hover:bg-emerald-900 active:scale-95"
             >
               <Download className="h-3.5 w-3.5" />
               <span className="hidden sm:inline">{t.installApp}</span>
@@ -145,27 +144,27 @@ export function Navbar({
         </div>
       </div>
 
-      {/* Mobile-First Tab Bar */}
-      <nav className="flex border-t border-emerald-900/30 bg-emerald-950/70 px-4 sm:px-6">
+      {/* Modern Clean Segmented Navigation Tabs */}
+      <nav className="flex border-t border-stone-100 bg-stone-50/60 px-4 sm:px-6">
         <div className="mx-auto flex w-full max-w-5xl justify-around sm:justify-start sm:gap-6">
           <button
             onClick={() => onTabChange("scan")}
-            className={`flex items-center gap-2 border-b-2 px-3 py-2.5 text-xs font-medium transition-all sm:text-sm ${
+            className={`flex items-center gap-2 border-b-2 px-3 py-2.5 text-xs font-medium transition-colors sm:text-sm ${
               activeTab === "scan"
-                ? "border-emerald-400 text-emerald-300 font-semibold"
-                : "border-transparent text-emerald-200/60 hover:text-emerald-100"
+                ? "border-emerald-800 text-emerald-900 font-semibold"
+                : "border-transparent text-stone-500 hover:text-stone-800"
             }`}
           >
-            <ShieldCheck className="h-4 w-4" />
+            <Shield className="h-4 w-4" />
             <span>{t.scanCrop}</span>
           </button>
 
           <button
             onClick={() => onTabChange("weather")}
-            className={`flex items-center gap-2 border-b-2 px-3 py-2.5 text-xs font-medium transition-all sm:text-sm ${
+            className={`flex items-center gap-2 border-b-2 px-3 py-2.5 text-xs font-medium transition-colors sm:text-sm ${
               activeTab === "weather"
-                ? "border-emerald-400 text-emerald-300 font-semibold"
-                : "border-transparent text-emerald-200/60 hover:text-emerald-100"
+                ? "border-emerald-800 text-emerald-900 font-semibold"
+                : "border-transparent text-stone-500 hover:text-stone-800"
             }`}
           >
             <CloudSun className="h-4 w-4" />
@@ -174,16 +173,16 @@ export function Navbar({
 
           <button
             onClick={() => onTabChange("history")}
-            className={`relative flex items-center gap-2 border-b-2 px-3 py-2.5 text-xs font-medium transition-all sm:text-sm ${
+            className={`relative flex items-center gap-2 border-b-2 px-3 py-2.5 text-xs font-medium transition-colors sm:text-sm ${
               activeTab === "history"
-                ? "border-emerald-400 text-emerald-300 font-semibold"
-                : "border-transparent text-emerald-200/60 hover:text-emerald-100"
+                ? "border-emerald-800 text-emerald-900 font-semibold"
+                : "border-transparent text-stone-500 hover:text-stone-800"
             }`}
           >
             <Clock className="h-4 w-4" />
             <span>{t.scanHistory}</span>
             {savedScansCount > 0 && (
-              <span className="ml-1 rounded-full bg-emerald-500/30 px-1.5 py-0.2 text-[10px] font-bold text-emerald-200 ring-1 ring-emerald-500/40">
+              <span className="ml-1 rounded-full bg-stone-200 px-1.5 py-0.2 text-[10px] font-bold text-stone-700">
                 {savedScansCount}
               </span>
             )}

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useRef } from "react";
-import { Camera, Upload, MapPin, Sparkles, Loader2 } from "lucide-react";
+import { Camera, Upload, MapPin, Loader2, ArrowRight } from "lucide-react";
 import { Language } from "@/types";
 import { translations } from "@/lib/i18n";
 import { compressImage } from "@/lib/api";
@@ -39,7 +39,7 @@ export function ImageUploader({ lang, onAnalyze, isAnalyzing }: ImageUploaderPro
         setLocationStatus("GPS attached");
       },
       (err) => {
-        console.warn("Geolocation denied:", err.message);
+        console.warn("Geolocation notice:", err.message);
         setLocationStatus("GPS unattached");
       },
       { timeout: 7000, enableHighAccuracy: true }
@@ -105,65 +105,60 @@ export function ImageUploader({ lang, onAnalyze, isAnalyzing }: ImageUploaderPro
         onChange={(e) => e.target.files?.[0] && handleFile(e.target.files[0])}
       />
 
-      {/* Main Upload / Preview Area */}
+      {/* Main Upload Area */}
       {!previewUrl ? (
         <div
           onDragEnter={() => setDragActive(true)}
           onDragLeave={() => setDragActive(false)}
           onDragOver={(e) => e.preventDefault()}
           onDrop={handleDrop}
-          className={`relative overflow-hidden rounded-3xl border-2 border-dashed p-6 text-center transition-all sm:p-10 ${
+          className={`relative overflow-hidden rounded-3xl border-2 border-dashed p-6 text-center transition-all sm:p-12 ${
             dragActive
-              ? "border-emerald-400 bg-emerald-900/30 scale-[1.01]"
-              : "border-emerald-700/60 bg-emerald-950/40 hover:border-emerald-500/80 hover:bg-emerald-950/60"
+              ? "border-emerald-600 bg-emerald-50/50"
+              : "border-stone-300 bg-white hover:border-emerald-600 shadow-xs"
           }`}
         >
-          {/* Background Ambient Glow */}
-          <div className="pointer-events-none absolute -top-24 left-1/2 -z-10 h-64 w-64 -translate-x-1/2 rounded-full bg-emerald-500/10 blur-3xl" />
-
-          {/* Action Buttons */}
           <div className="mx-auto flex max-w-md flex-col items-center gap-4">
-            <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-emerald-500/10 ring-1 ring-emerald-500/30">
-              <Camera className="h-8 w-8 text-emerald-400" />
+            <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-emerald-50 text-emerald-800 border border-emerald-100">
+              <Camera className="h-6 w-6" />
             </div>
 
-            <div className="space-y-1">
-              <h3 className="text-lg font-bold text-white sm:text-xl">
+            <div className="space-y-1.5">
+              <h3 className="text-xl font-bold tracking-tight text-stone-900 sm:text-2xl">
                 {t.heroHeading}
               </h3>
-              <p className="text-xs text-emerald-200/70 sm:text-sm">
+              <p className="text-xs text-stone-600 sm:text-sm leading-relaxed max-w-sm mx-auto">
                 {t.heroSubtitle}
               </p>
             </div>
 
-            <div className="grid w-full grid-cols-1 gap-3 pt-2 sm:grid-cols-2">
-              {/* Native Mobile Camera Button */}
+            {/* Action Buttons */}
+            <div className="grid w-full grid-cols-1 gap-3 pt-3 sm:grid-cols-2">
               <button
                 type="button"
                 onClick={() => cameraInputRef.current?.click()}
-                className="group flex items-center justify-center gap-2.5 rounded-2xl bg-gradient-to-r from-emerald-500 to-emerald-600 px-5 py-3.5 text-sm font-semibold text-emerald-950 shadow-lg shadow-emerald-500/25 transition-all hover:brightness-110 active:scale-95"
+                className="group flex items-center justify-center gap-2 rounded-xl bg-emerald-800 px-5 py-3 text-sm font-semibold text-white shadow-xs transition-colors hover:bg-emerald-900 active:scale-[0.98]"
               >
-                <Camera className="h-4 w-4 transition-transform group-hover:scale-110 text-emerald-950" />
+                <Camera className="h-4 w-4" />
                 <span>{t.snapPhoto}</span>
               </button>
 
-              {/* Gallery Picker Button */}
               <button
                 type="button"
                 onClick={() => fileInputRef.current?.click()}
-                className="group flex items-center justify-center gap-2.5 rounded-2xl border border-emerald-700/60 bg-emerald-900/40 px-5 py-3.5 text-sm font-semibold text-emerald-200 transition-all hover:border-emerald-500 hover:bg-emerald-900/80 active:scale-95"
+                className="group flex items-center justify-center gap-2 rounded-xl border border-stone-200 bg-white px-5 py-3 text-sm font-semibold text-stone-700 transition-colors hover:bg-stone-50 hover:border-stone-300 active:scale-[0.98] shadow-2xs"
               >
-                <Upload className="h-4 w-4 transition-transform group-hover:-translate-y-0.5 text-emerald-400" />
+                <Upload className="h-4 w-4 text-stone-500" />
                 <span>{t.uploadPhoto}</span>
               </button>
             </div>
 
-            <p className="text-xs text-emerald-300/40 pt-1">
+            <p className="text-xs text-stone-400 pt-1">
               {t.dragDrop}
             </p>
 
-            {/* Farm GPS Toggle */}
-            <div className="mt-2 flex items-center gap-2 rounded-xl bg-emerald-900/30 px-3 py-1.5 ring-1 ring-emerald-700/40">
+            {/* Farm Location Toggle */}
+            <div className="mt-2 flex items-center gap-2 rounded-xl border border-stone-200 bg-stone-50/80 px-3 py-1.5">
               <input
                 id="gps-toggle"
                 type="checkbox"
@@ -172,23 +167,22 @@ export function ImageUploader({ lang, onAnalyze, isAnalyzing }: ImageUploaderPro
                   setAttachLocation(e.target.checked);
                   if (e.target.checked && !locationCoords) requestGps();
                 }}
-                className="h-4 w-4 rounded border-emerald-600 text-emerald-500 focus:ring-emerald-400"
+                className="h-4 w-4 rounded border-stone-300 text-emerald-800 focus:ring-emerald-700"
               />
-              <label htmlFor="gps-toggle" className="cursor-pointer text-xs text-emerald-200/80 flex items-center gap-1">
-                <MapPin className="h-3 w-3 text-emerald-400" />
+              <label htmlFor="gps-toggle" className="cursor-pointer text-xs text-stone-600 flex items-center gap-1.5 font-medium">
+                <MapPin className="h-3.5 w-3.5 text-emerald-800" />
                 <span>{t.useMyLocation}</span>
                 {locationStatus && (
-                  <span className="text-[10px] text-emerald-400 font-mono">({locationStatus})</span>
+                  <span className="text-[10px] text-stone-500 font-mono">({locationStatus})</span>
                 )}
               </label>
             </div>
           </div>
         </div>
       ) : (
-        /* Preview Card */
-        <div className="relative overflow-hidden rounded-3xl border border-emerald-700/60 bg-emerald-950/80 p-4 sm:p-6 shadow-2xl">
-          <div className="relative mx-auto aspect-video max-h-[380px] w-full overflow-hidden rounded-2xl border border-emerald-800/80 bg-black/60">
-            {/* Leaf Image Preview */}
+        /* Image Preview View */
+        <div className="relative overflow-hidden rounded-3xl border border-stone-200 bg-white p-4 sm:p-6 shadow-sm">
+          <div className="relative mx-auto aspect-video max-h-[400px] w-full overflow-hidden rounded-2xl border border-stone-200 bg-stone-900">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={previewUrl}
@@ -196,15 +190,17 @@ export function ImageUploader({ lang, onAnalyze, isAnalyzing }: ImageUploaderPro
               className="h-full w-full object-contain"
             />
 
-            {/* Scanning Laser Beam Effect */}
+            {/* Professional Inspection Overlay */}
             {isAnalyzing && (
-              <div className="pointer-events-none absolute inset-0 overflow-hidden">
-                <div className="h-2 w-full bg-gradient-to-r from-transparent via-emerald-400 to-transparent shadow-[0_0_15px_#34d399] animate-[scan_2s_ease-in-out_infinite]" />
-                <div className="absolute inset-0 bg-emerald-500/10 backdrop-blur-[1px] flex items-center justify-center">
-                  <div className="flex flex-col items-center gap-2 rounded-2xl bg-black/75 px-6 py-4 border border-emerald-500/40 shadow-xl">
-                    <Loader2 className="h-8 w-8 animate-spin text-emerald-400" />
-                    <p className="text-sm font-semibold text-emerald-200">{t.analyzingLeaf}</p>
-                    <p className="text-xs text-emerald-400/70">{t.runningVision}</p>
+              <div className="absolute inset-0 bg-stone-900/60 backdrop-blur-xs flex items-center justify-center p-4">
+                <div className="flex flex-col items-center gap-3 rounded-2xl bg-white px-7 py-5 shadow-lg border border-stone-100 max-w-sm text-center">
+                  <Loader2 className="h-7 w-7 animate-spin text-emerald-800" />
+                  <div>
+                    <p className="text-sm font-bold text-stone-900">{t.analyzingLeaf}</p>
+                    <p className="text-xs text-stone-500 mt-0.5">{t.runningVision}</p>
+                  </div>
+                  <div className="w-full bg-stone-100 rounded-full h-1.5 overflow-hidden mt-1">
+                    <div className="bg-emerald-800 h-1.5 rounded-full w-2/3 animate-pulse" />
                   </div>
                 </div>
               </div>
@@ -217,7 +213,7 @@ export function ImageUploader({ lang, onAnalyze, isAnalyzing }: ImageUploaderPro
               type="button"
               disabled={isAnalyzing}
               onClick={resetSelection}
-              className="rounded-xl border border-emerald-800 bg-emerald-950/60 px-4 py-2.5 text-xs font-semibold text-emerald-300 transition-colors hover:bg-emerald-900 disabled:opacity-50"
+              className="rounded-xl border border-stone-200 bg-white px-4 py-2.5 text-xs font-semibold text-stone-700 hover:bg-stone-50 transition-colors disabled:opacity-50"
             >
               {t.retakePhoto}
             </button>
@@ -226,17 +222,17 @@ export function ImageUploader({ lang, onAnalyze, isAnalyzing }: ImageUploaderPro
               type="button"
               disabled={isAnalyzing}
               onClick={triggerAnalyze}
-              className="group flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-emerald-400 to-emerald-600 px-6 py-3 text-sm font-bold text-emerald-950 shadow-lg shadow-emerald-500/25 transition-all hover:brightness-110 active:scale-95 disabled:opacity-50"
+              className="group flex items-center justify-center gap-2 rounded-xl bg-emerald-800 px-6 py-2.5 text-sm font-semibold text-white shadow-xs transition-colors hover:bg-emerald-900 active:scale-[0.98] disabled:opacity-50"
             >
               {isAnalyzing ? (
                 <>
-                  <Loader2 className="h-4 w-4 animate-spin text-emerald-950" />
+                  <Loader2 className="h-4 w-4 animate-spin text-white" />
                   <span>{t.analyzingLeaf}</span>
                 </>
               ) : (
                 <>
-                  <Sparkles className="h-4 w-4 text-emerald-950 transition-transform group-hover:rotate-12" />
-                  <span>Diagnose Leaf Pathology</span>
+                  <span>Begin Diagnosis</span>
+                  <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
                 </>
               )}
             </button>

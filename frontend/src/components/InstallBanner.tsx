@@ -52,18 +52,18 @@ export function InstallBanner({ lang }: InstallBannerProps) {
   if (!isVisible || isDismissed) return null;
 
   return (
-    <aside aria-label="Install App" className="w-full rounded-2xl border border-emerald-500/40 bg-gradient-to-r from-emerald-950 via-emerald-900 to-emerald-950 p-4 shadow-xl mb-5 backdrop-blur-md">
+    <aside aria-label="Install App" className="w-full rounded-2xl border border-emerald-200 bg-emerald-50/90 p-4 shadow-xs mb-6">
       <div className="flex items-center justify-between gap-3">
         <div className="flex items-center gap-3">
-          <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-emerald-500/20 text-emerald-400 ring-1 ring-emerald-500/30">
-            <Smartphone className="h-5 w-5" />
+          <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl bg-emerald-800 text-white">
+            <Smartphone className="h-4.5 w-4.5" />
           </div>
           <div>
-            <p className="text-xs font-bold text-white sm:text-sm">
+            <p className="text-xs font-bold text-stone-900 sm:text-sm">
               {t.installApp}
             </p>
-            <p className="text-[11px] text-emerald-300/80">
-              Works offline in fields with instant camera capture and zero lag.
+            <p className="text-[11px] text-stone-600">
+              Access plant diagnostics directly from your home screen with offline field support.
             </p>
           </div>
         </div>
@@ -71,14 +71,14 @@ export function InstallBanner({ lang }: InstallBannerProps) {
         <div className="flex items-center gap-2">
           <button
             onClick={handleInstall}
-            className="flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-emerald-400 to-emerald-500 px-3.5 py-1.5 text-xs font-bold text-emerald-950 shadow-md shadow-emerald-500/20 hover:brightness-110 active:scale-95"
+            className="flex items-center gap-1.5 rounded-lg bg-emerald-800 px-3.5 py-1.5 text-xs font-semibold text-white shadow-2xs hover:bg-emerald-900 transition-colors active:scale-95"
           >
             <Download className="h-3.5 w-3.5" />
             <span>Install</span>
           </button>
           <button
             onClick={handleDismiss}
-            className="rounded-lg p-1.5 text-emerald-400/60 hover:text-emerald-200"
+            className="rounded-lg p-1.5 text-stone-400 hover:text-stone-700 hover:bg-stone-100 transition-colors"
             aria-label="Dismiss banner"
           >
             <X className="h-4 w-4" />
