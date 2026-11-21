@@ -30,8 +30,11 @@ wheels/
 checkpoints/
 models/*.pth
 models/*.onnx
-data/
-datasets/
+/data/
+/datasets/
+backend/data/
+backend/models/*.pth
+backend/models/*.onnx
 
 # Node / Frontend
 node_modules/
