@@ -1,5 +1,6 @@
-"""PlantVillage 38-class pathology taxonomy with metadata."""
+"""CropDoc pathology taxonomy with comprehensive Indian staple & cash crops and PlantVillage classes."""
 
+# Classical PlantVillage 38 benchmark classes
 PLANT_VILLAGE_CLASSES = [
     "Apple___Apple_scab",
     "Apple___Black_rot",
@@ -41,24 +42,78 @@ PLANT_VILLAGE_CLASSES = [
     "Tomato___healthy"
 ]
 
+# Major Indian agricultural staple & cash crop classes
+INDIAN_CROP_CLASSES = [
+    "Rice___Leaf_Blast",
+    "Rice___Bacterial_Blight",
+    "Rice___Brown_Spot",
+    "Rice___healthy",
+    "Wheat___Yellow_Rust",
+    "Wheat___Brown_Rust",
+    "Wheat___Powdery_Mildew",
+    "Wheat___healthy",
+    "Cotton___Bacterial_Blight",
+    "Cotton___Leaf_Curl_Virus",
+    "Cotton___Bollworm_Damage",
+    "Cotton___healthy",
+    "Sugarcane___Red_Rot",
+    "Sugarcane___Rust",
+    "Sugarcane___healthy",
+    "Mustard___White_Rust",
+    "Mustard___Alternaria_Blight",
+    "Mustard___healthy",
+    "Chilli___Leaf_Curl",
+    "Chilli___Anthracnose_Dieback",
+    "Chilli___healthy",
+    "Onion___Purple_Blotch",
+    "Onion___Stemphylium_Blight",
+    "Onion___healthy"
+]
+
+ALL_CROP_CLASSES = PLANT_VILLAGE_CLASSES + INDIAN_CROP_CLASSES
+
+# Human-friendly vernacular names dictionary
+INDIAN_CROP_NAMES_HI = {
+    "Rice": "धान (चावल)",
+    "Wheat": "गेहूँ",
+    "Cotton": "कपास",
+    "Sugarcane": "गन्ना",
+    "Mustard": "सरसों",
+    "Chilli": "हरी मिर्च",
+    "Onion": "प्याज़",
+    "Potato": "आलू",
+    "Tomato": "टमाटर",
+    "Corn": "मक्का",
+    "Apple": "सेब",
+    "Grape": "अंगूर",
+    "Pepper, bell": "शिमला मिर्च",
+    "Orange": "संतरा / किन्नू"
+}
+
 def parse_class_name(class_name: str) -> dict:
     """Parses raw class name into formatted crop, condition, and status metadata."""
     if "___" not in class_name:
+        clean = class_name.replace("_", " ")
         return {
             "crop": "Unknown",
-            "condition": class_name.replace("_", " "),
+            "condition": clean,
             "is_healthy": False,
-            "display_name": class_name.replace("_", " ")
+            "display_name": clean,
+            "crop_hi": "फसल",
+            "condition_hi": clean
         }
     
     crop_raw, condition_raw = class_name.split("___", 1)
     crop = crop_raw.replace("_", " ").replace("(maize)", "").replace("(including sour)", "").strip()
     is_healthy = condition_raw.lower() == "healthy"
     condition = "Healthy Leaf" if is_healthy else condition_raw.replace("_", " ").strip()
+    crop_hi = INDIAN_CROP_NAMES_HI.get(crop, crop)
     
     return {
         "crop": crop,
         "condition": condition,
         "is_healthy": is_healthy,
-        "display_name": f"{crop} - {condition}"
+        "display_name": f"{crop} - {condition}",
+        "crop_hi": crop_hi,
+        "condition_hi": "स्वस्थ पत्ती" if is_healthy else condition
     }
