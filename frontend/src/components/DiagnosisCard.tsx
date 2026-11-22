@@ -237,10 +237,10 @@ export function DiagnosisCard({
                   style={{ width: `${Math.min(100, diagnosis.confidence_score)}%` }}
                 />
               </div>
-              {stage_applied === "stage3_multimodal" && (
+              {(stage_applied === "stage3_multimodal" || stage_applied === "stage3_gemini_multimodal_live" || data.is_live_ai) && (
                 <span className="text-[11px] font-bold text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded-md border border-indigo-200 flex items-center gap-1 mt-1">
                   <Sparkles className="w-3 h-3 text-indigo-600" />
-                  Multimodal Agro-Vision
+                  Live Gemini Multimodal AI
                 </span>
               )}
             </div>

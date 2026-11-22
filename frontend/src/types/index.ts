@@ -109,13 +109,14 @@ export interface WeatherData {
 
 export interface DiagnosisResponse {
   status: "success" | "rejected";
-  stage_applied: "stage1_rejected" | "stage2_cv" | "stage3_multimodal";
+  stage_applied: "stage1_rejected" | "stage2_cv" | "stage3_multimodal" | "stage3_gemini_multimodal_live" | string;
   validation: LeafValidationResult;
   diagnosis: CropDiagnosis | null;
   is_confident: boolean;
   top_candidates: Candidate[];
   advisory: AdvisoryData | null;
   weather_context?: WeatherData | null;
+  is_live_ai?: boolean;
 }
 
 export interface SavedScan {
