@@ -18,8 +18,11 @@ async def diagnose_crop(
     city: Optional[str] = Form(None)
 ):
     """
-    Analyzes an uploaded leaf image, identifies plant disease using PyTorch computer vision,
-    and returns verified organic & chemical remedies and optional agro-weather risk analysis.
+    Analyzes an uploaded leaf image via a 3-Stage Hierarchical Field Pipeline:
+    - Stage 1: Fast CV Pre-filter (<50ms) for blur and foliage validation.
+    - Stage 2: Deep Computer Vision classification on 62 Indian & PlantVillage classes.
+    - Stage 3: Multimodal Gemini 2.5 Flash Vision fallback for complex field photos.
+    Returns verified CIBRC chemical/organic remedies (15L tanki calibrated) and agro-weather advisories.
     """
     if image.content_type not in ALLOWED_CONTENT_TYPES:
         raise HTTPException(
@@ -40,7 +43,7 @@ async def diagnose_crop(
             detail="The uploaded file is empty. Please capture or upload a valid leaf photo."
         )
 
-    # 1. Run Computer Vision Diagnostics
+    # 1. Run Hierarchical Computer Vision Diagnostics
     try:
         prediction_result = plant_disease_model.predict(image_bytes)
     except ValueError as val_err:
@@ -58,6 +61,19 @@ async def diagnose_crop(
         except Exception:
             weather_data = None  # Proceed gracefully if weather endpoint fails or is unconfigured
 
+    # Check if Stage 1 rejected the image
+    if prediction_result.get("stage_applied") == "stage1_rejected":
+        return {
+            "status": "rejected",
+            "stage_applied": "stage1_rejected",
+            "validation": prediction_result["validation"],
+            "diagnosis": None,
+            "is_confident": False,
+            "top_candidates": [],
+            "advisory": None,
+            "weather_context": weather_data
+        }
+
     # 3. Retrieve Verified Agronomic Remedies & Optional AI Insight
     advisory = await advisory_service.get_enhanced_advisory(
         diagnosis=prediction_result["diagnosis"],
@@ -66,6 +82,8 @@ async def diagnose_crop(
 
     return {
         "status": "success",
+        "stage_applied": prediction_result["stage_applied"],
+        "validation": prediction_result["validation"],
         "diagnosis": prediction_result["diagnosis"],
         "is_confident": prediction_result["is_confident"],
         "top_candidates": prediction_result["top_candidates"],
