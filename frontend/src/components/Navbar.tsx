@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Leaf, Download, Globe, Clock, CloudSun, Shield, Store } from "lucide-react";
+import { Leaf, Download, Globe, Clock, CloudSun, Shield, Store, User } from "lucide-react";
 import { Language } from "@/types";
 import { translations } from "@/lib/i18n";
 import { checkBackendHealth } from "@/lib/api";
@@ -14,8 +14,8 @@ interface BeforeInstallPromptEvent extends Event {
 interface NavbarProps {
   lang: Language;
   onLanguageChange: (lang: Language) => void;
-  activeTab: "scan" | "mandi" | "weather" | "history";
-  onTabChange: (tab: "scan" | "mandi" | "weather" | "history") => void;
+  activeTab: "scan" | "mandi" | "weather" | "history" | "account";
+  onTabChange: (tab: "scan" | "mandi" | "weather" | "history" | "account") => void;
   savedScansCount: number;
 }
 
@@ -204,6 +204,19 @@ export function Navbar({
                 {savedScansCount}
               </span>
             )}
+          </button>
+
+          <button
+            type="button"
+            onClick={() => onTabChange("account")}
+            className={`flex items-center gap-2 border-b-2 px-3.5 py-2.5 text-xs font-bold whitespace-nowrap transition-colors sm:text-sm ${
+              activeTab === "account"
+                ? "border-emerald-800 text-emerald-900"
+                : "border-transparent text-stone-600 hover:text-stone-900"
+            }`}
+          >
+            <User className="h-4 w-4" />
+            <span>{t.accountTab}</span>
           </button>
         </div>
       </nav>

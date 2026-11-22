@@ -7,15 +7,16 @@ import { DiagnosisCard } from "@/components/DiagnosisCard";
 import { MandiTracker } from "@/components/MandiTracker";
 import { WeatherCard } from "@/components/WeatherCard";
 import { ScanHistoryView } from "@/components/ScanHistoryView";
+import { KisanProfileTab } from "@/components/KisanProfileTab";
 import { InstallBanner } from "@/components/InstallBanner";
 import { Language, DiagnosisResponse, SavedScan, LeafValidationResult } from "@/types";
 import { diagnoseCrop } from "@/lib/api";
-import { getSavedScans } from "@/lib/storage";
+import { getSavedScans, requestPersistentStorage } from "@/lib/storage";
 import { Sprout, AlertTriangle } from "lucide-react";
 
 export default function Home() {
   const [lang, setLang] = useState<Language>("en");
-  const [activeTab, setActiveTab] = useState<"scan" | "mandi" | "weather" | "history">("scan");
+  const [activeTab, setActiveTab] = useState<"scan" | "mandi" | "weather" | "history" | "account">("scan");
   const [diagnosisResult, setDiagnosisResult] = useState<DiagnosisResponse | null>(null);
   const [validationError, setValidationError] = useState<LeafValidationResult | null>(null);
   const [activeThumbnail, setActiveThumbnail] = useState<string | null>(null);
@@ -24,6 +25,11 @@ export default function Home() {
     return typeof window !== "undefined" ? getSavedScans().length : 0;
   });
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+  // Request storage persistence on launch (safeguard against mobile browser cache wipes)
+  React.useEffect(() => {
+    requestPersistentStorage();
+  }, []);
 
   const refreshSavedCount = () => {
     const list = getSavedScans();
@@ -169,6 +175,15 @@ export default function Home() {
             lang={lang}
             onSelectScan={handleSelectHistoricalScan}
             onScansUpdated={refreshSavedCount}
+            onNavigateToAccount={() => setActiveTab("account")}
+          />
+        )}
+
+        {/* Tab 5: Kisan Profile & Free Google Cloud Sync */}
+        {activeTab === "account" && (
+          <KisanProfileTab
+            lang={lang}
+            onScansSynced={() => refreshSavedCount()}
           />
         )}
       </main>

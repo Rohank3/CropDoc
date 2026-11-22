@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Clock, Trash2, ChevronRight, Sprout } from "lucide-react";
+import { Clock, Trash2, ChevronRight, Sprout, Cloud } from "lucide-react";
 import { SavedScan, Language } from "@/types";
 import { translations } from "@/lib/i18n";
 import { getSavedScans, deleteSavedScan, clearAllSavedScans } from "@/lib/storage";
@@ -10,9 +10,10 @@ interface ScanHistoryViewProps {
   lang: Language;
   onSelectScan: (scan: SavedScan) => void;
   onScansUpdated: () => void;
+  onNavigateToAccount?: () => void;
 }
 
-export function ScanHistoryView({ lang, onSelectScan, onScansUpdated }: ScanHistoryViewProps) {
+export function ScanHistoryView({ lang, onSelectScan, onScansUpdated, onNavigateToAccount }: ScanHistoryViewProps) {
   const t = translations[lang];
   const [scans, setScans] = useState<SavedScan[]>(() => {
     return typeof window !== "undefined" ? getSavedScans() : [];
@@ -63,6 +64,21 @@ export function ScanHistoryView({ lang, onSelectScan, onScansUpdated }: ScanHist
           </button>
         )}
       </div>
+
+      {onNavigateToAccount && (
+        <div
+          onClick={onNavigateToAccount}
+          className="flex items-center justify-between p-3.5 rounded-xl bg-emerald-50/80 border border-emerald-200 cursor-pointer hover:bg-emerald-100/70 transition-all active:scale-[0.99] shadow-2xs"
+        >
+          <div className="flex items-center gap-2.5">
+            <Cloud className="h-4.5 w-4.5 text-emerald-700 shrink-0" />
+            <p className="text-xs font-medium text-emerald-950">
+              {t.cloudBackupBanner}
+            </p>
+          </div>
+          <ChevronRight className="h-4 w-4 text-emerald-700 shrink-0" />
+        </div>
+      )}
 
       {scans.length === 0 ? (
         <div className="flex flex-col items-center justify-center rounded-3xl border border-dashed border-stone-300 bg-white p-10 text-center shadow-xs">

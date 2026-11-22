@@ -74,6 +74,18 @@ export interface TranslationDict {
   arrivals: string;
   nearbyMandis: string;
   noMandiResults: string;
+  accountTab: string;
+  guestModeTitle: string;
+  guestModeDesc: string;
+  signInWithGoogle: string;
+  signOut: string;
+  syncNow: string;
+  syncing: string;
+  synced: string;
+  farmPreferences: string;
+  savePreferences: string;
+  preferencesSaved: string;
+  cloudBackupBanner: string;
 }
 
 export const translations: Record<Language, TranslationDict> = {
@@ -150,7 +162,19 @@ export const translations: Record<Language, TranslationDict> = {
     priceRange: "Price Range",
     arrivals: "Daily Arrivals",
     nearbyMandis: "Nearby Market Rates",
-    noMandiResults: "No APMC market records found for the selected combination."
+    noMandiResults: "No APMC market records found for the selected combination.",
+    accountTab: "Kisan Profile",
+    guestModeTitle: "Guest Farmer Mode",
+    guestModeDesc: "Your scans are safely saved in this browser. Connect with your free Google account anytime to backup your crop diagnostic history permanently across devices.",
+    signInWithGoogle: "Sign In with Google (100% Free)",
+    signOut: "Sign Out",
+    syncNow: "Sync Scans to Cloud",
+    syncing: "Syncing...",
+    synced: "All scans backed up to cloud",
+    farmPreferences: "Farm Location & Preferred Crops",
+    savePreferences: "Save Farm Profile",
+    preferencesSaved: "Farm profile updated successfully!",
+    cloudBackupBanner: "Protect your crop records: Sign in with Google to sync history across all your devices."
   },
   hi: {
     appName: "क्रॉपडॉक (CropDoc)",
@@ -225,6 +249,18 @@ export const translations: Record<Language, TranslationDict> = {
     priceRange: "न्यूनतम - अधिकतम भाव",
     arrivals: "दैनिक आवक",
     nearbyMandis: "आसपास की मंडियों के भाव",
-    noMandiResults: "चुने गए विकल्पों के लिए कोई मंडी रिकॉर्ड उपलब्ध नहीं है।"
+    noMandiResults: "चुने गए विकल्पों के लिए कोई मंडी रिकॉर्ड उपलब्ध नहीं है।",
+    accountTab: "किसान प्रोफ़ाइल",
+    guestModeTitle: "अतिथि किसान मोड",
+    guestModeDesc: "आपकी जांच रिपोर्ट इस डिवाइस में सुरक्षित हैं। कभी भी किसी भी फोन से रिकॉर्ड पाने के लिए अपने गूगल खाते से जुड़ें (बिल्कुल मुफ़्त)।",
+    signInWithGoogle: "गूगल से लॉगिन करें (100% मुफ़्त)",
+    signOut: "लॉगआउट करें",
+    syncNow: "क्लाउड पर सिंक करें",
+    syncing: "सिंक हो रहा है...",
+    synced: "सभी पर्चे क्लाउड पर सुरक्षित हैं",
+    farmPreferences: "खेत की लोकेशन व पसंदीदा फसलें",
+    savePreferences: "प्रोफ़ाइल सहेजें",
+    preferencesSaved: "प्रोफ़ाइल सफलतापूर्वक अपडेट हो गई!",
+    cloudBackupBanner: "अपने सभी पुराने पर्चे सुरक्षित रखने व किसी भी फोन पर देखने के लिए गूगल से जुड़ें।"
   }
 };

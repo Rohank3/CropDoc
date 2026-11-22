@@ -10,6 +10,7 @@ import confetti from "canvas-confetti";
 import { DiagnosisResponse, Language } from "@/types";
 import { translations } from "@/lib/i18n";
 import { saveScan } from "@/lib/storage";
+import { syncScansWithCloud } from "@/lib/syncService";
 
 interface DiagnosisCardProps {
   data: DiagnosisResponse;
@@ -116,6 +117,8 @@ export function DiagnosisCard({
     );
     setIsSaved(true);
     onSaved();
+    // Silently sync to cloud in background if user is signed in
+    syncScansWithCloud().catch(() => {});
     setTimeout(() => setIsSaved(false), 3000);
   };
 
