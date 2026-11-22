@@ -36,6 +36,9 @@ backend/data/
 backend/models/*.pth
 backend/models/*.onnx
 
+# Keep production fine-tuned model checkpoint (8.8 MB) available in production
+!backend/models/cropdoc_mobilenetv2.pth
+
 # Node / Frontend
 node_modules/
 .pnp
