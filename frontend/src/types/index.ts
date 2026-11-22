@@ -123,13 +123,28 @@ export interface SavedScan {
   id: string;
   timestamp: number;
   imageThumbnail: string;
+  imageUrl?: string;
   diagnosis: CropDiagnosis;
   severity: string;
   severity_gauge?: "green" | "yellow" | "red";
   tanki_quick_dose?: string;
   advisory: AdvisoryData;
   weatherSnapshot?: WeatherTelemetry | null;
+  synced_to_cloud?: boolean;
 }
+
+export interface KisanProfile {
+  id: string;
+  email?: string;
+  full_name: string;
+  avatar_url?: string;
+  state: string;
+  district: string;
+  preferred_crops: string[];
+  updated_at?: string;
+}
+
+export type SyncStatus = "idle" | "syncing" | "synced" | "error" | "offline";
 
 export interface MandiNearbyMarket {
   market: string;
