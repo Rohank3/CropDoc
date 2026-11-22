@@ -1,4 +1,4 @@
-import { DiagnosisResponse, WeatherData } from "@/types";
+import { DiagnosisResponse, WeatherData, MandiMetaResponse, MandiPricesResponse } from "@/types";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000";
 
@@ -6,7 +6,7 @@ const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000";
  * Compresses an image client-side using an HTML Canvas
  * to conserve bandwidth for farmers on rural mobile connections.
  */
-export async function compressImage(file: File, maxDimension = 1024, quality = 0.85): Promise<Blob> {
+export async function compressImage(file: File | Blob, maxDimension = 1024, quality = 0.85): Promise<Blob> {
   return new Promise((resolve, reject) => {
     const img = new Image();
     const reader = new FileReader();
@@ -57,7 +57,7 @@ export async function compressImage(file: File, maxDimension = 1024, quality = 0
 }
 
 /**
- * Submits leaf image to the FastAPI PyTorch vision model.
+ * Submits leaf image to the FastAPI Hierarchical Field Pipeline.
  */
 export async function diagnoseCrop(
   imageBlob: Blob | File,
@@ -84,7 +84,6 @@ export async function diagnoseCrop(
       const errJson = await response.json();
       errorDetail = errJson.detail || errorDetail;
     } catch {
-      // Fallback to response status text
       errorDetail = `HTTP ${response.status}: ${response.statusText}`;
     }
     throw new Error(errorDetail);
@@ -94,7 +93,7 @@ export async function diagnoseCrop(
 }
 
 /**
- * Retrieves live agro-meteorological telemetry and disease outbreak indicators.
+ * Retrieves live or offline-cached agro-meteorological telemetry and spraying advisory.
  */
 export async function fetchAgroWeather(location: {
   lat?: number;
@@ -108,7 +107,7 @@ export async function fetchAgroWeather(location: {
   } else if (location.city) {
     params.append("city", location.city);
   } else {
-    throw new Error("Location coordinates or city required");
+    params.append("city", "Central India");
   }
 
   const response = await fetch(`${API_BASE_URL}/api/weather?${params.toString()}`);
@@ -127,15 +126,49 @@ export async function fetchAgroWeather(location: {
 }
 
 /**
+ * Retrieves Mandi search metadata (states, districts mapping, and crops list).
+ */
+export async function fetchMandiMetadata(): Promise<MandiMetaResponse> {
+  const response = await fetch(`${API_BASE_URL}/api/mandi/meta`);
+  if (!response.ok) {
+    throw new Error("Unable to load Mandi market metadata");
+  }
+  return response.json();
+}
+
+/**
+ * Retrieves APMC Mandi prices, arrivals, and price trends.
+ */
+export async function fetchMandiPrices(filters?: {
+  state?: string;
+  district?: string;
+  crop?: string;
+}): Promise<MandiPricesResponse> {
+  const params = new URLSearchParams();
+  if (filters?.state && filters.state !== "All") params.append("state", filters.state);
+  if (filters?.district && filters.district !== "All") params.append("district", filters.district);
+  if (filters?.crop && filters.crop !== "All") params.append("crop", filters.crop);
+
+  const url = `${API_BASE_URL}/api/mandi/prices${params.toString() ? `?${params.toString()}` : ""}`;
+  const response = await fetch(url);
+  if (!response.ok) {
+    throw new Error("Unable to retrieve APMC Mandi prices");
+  }
+  return response.json();
+}
+
+/**
  * Checks FastAPI backend status and hardware capabilities (GPU vs CPU).
  */
 export async function checkBackendHealth(): Promise<{
   status: string;
+  version: string;
   cuda_available: boolean;
   device_name: string;
   supported_classes_count: number;
   weather_service_configured: boolean;
   ai_advisory_configured: boolean;
+  mandi_service_active: boolean;
 }> {
   const response = await fetch(`${API_BASE_URL}/api/health`);
   if (!response.ok) {
