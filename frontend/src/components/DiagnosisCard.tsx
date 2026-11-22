@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import { 
   ShieldCheck, AlertTriangle, Sprout, FlaskConical, 
   Wind, CheckCircle2, Volume2, VolumeX, BookmarkPlus, 
-  Share2, Droplet, Clock, IndianRupee, Sparkles, Check
+  Share2, Droplet, Clock, Sparkles, Check
 } from "lucide-react";
 import confetti from "canvas-confetti";
 import { DiagnosisResponse, Language } from "@/types";
@@ -31,13 +31,10 @@ export function DiagnosisCard({
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [isSaved, setIsSaved] = useState(false);
 
-  const { diagnosis, advisory, is_confident, top_candidates, weather_context, stage_applied } = data;
-  if (!diagnosis || !advisory) return null;
+  const { diagnosis, advisory, top_candidates, weather_context, stage_applied } = data;
+  const isHealthy = diagnosis?.is_healthy ?? false;
 
-  const isHealthy = diagnosis.is_healthy;
-  const severityGauge = advisory.severity_gauge || (isHealthy ? "green" : advisory.severity.toLowerCase().includes("high") || advisory.severity.toLowerCase().includes("critical") ? "red" : "yellow");
-
-  // Gentle celebration confetti for healthy crop findings
+  // Gentle celebration confetti for healthy crop findings (Hook called at top level)
   useEffect(() => {
     if (isHealthy) {
       confetti({
@@ -48,6 +45,10 @@ export function DiagnosisCard({
       });
     }
   }, [isHealthy]);
+
+  if (!diagnosis || !advisory) return null;
+
+  const severityGauge = advisory.severity_gauge || (isHealthy ? "green" : advisory.severity.toLowerCase().includes("high") || advisory.severity.toLowerCase().includes("critical") ? "red" : "yellow");
 
   const toggleSpeech = () => {
     if (!("speechSynthesis" in window)) {

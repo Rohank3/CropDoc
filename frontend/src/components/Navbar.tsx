@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Leaf, Download, Globe, Clock, CloudSun, Shield } from "lucide-react";
+import { Leaf, Download, Globe, Clock, CloudSun, Shield, Store } from "lucide-react";
 import { Language } from "@/types";
 import { translations } from "@/lib/i18n";
 import { checkBackendHealth } from "@/lib/api";
@@ -14,8 +14,8 @@ interface BeforeInstallPromptEvent extends Event {
 interface NavbarProps {
   lang: Language;
   onLanguageChange: (lang: Language) => void;
-  activeTab: "scan" | "weather" | "history";
-  onTabChange: (tab: "scan" | "weather" | "history") => void;
+  activeTab: "scan" | "mandi" | "weather" | "history";
+  onTabChange: (tab: "scan" | "mandi" | "weather" | "history") => void;
   savedScansCount: number;
 }
 
@@ -82,23 +82,23 @@ export function Navbar({
   };
 
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-stone-200/80 bg-white/90 backdrop-blur-md">
+    <header className="sticky top-0 z-40 w-full border-b border-stone-200/80 bg-white/95 backdrop-blur-md">
       <div className="mx-auto flex max-w-5xl items-center justify-between px-4 py-3 sm:px-6">
         {/* Brand */}
         <div 
           onClick={() => onTabChange("scan")}
           className="group flex cursor-pointer items-center gap-2.5 transition-transform active:scale-[0.98]"
         >
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-emerald-800 text-white shadow-xs">
-            <Leaf className="h-4.5 w-4.5" />
+          <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-emerald-800 text-white shadow-sm">
+            <Leaf className="h-5 w-5" />
           </div>
           <div>
             <div className="flex items-center gap-1.5">
-              <span className="text-base font-bold tracking-tight text-stone-900 sm:text-lg">
+              <span className="text-base font-extrabold tracking-tight text-stone-900 sm:text-lg">
                 {t.appName}
               </span>
-              <span className="rounded-md bg-stone-100 px-1.5 py-0.5 text-[10px] font-semibold text-stone-600 uppercase">
-                PWA
+              <span className="rounded-md bg-emerald-100 px-1.5 py-0.5 text-[10px] font-bold text-emerald-800 uppercase">
+                भारत KISAN
               </span>
             </div>
             <p className="hidden text-xs text-stone-500 sm:block">
@@ -110,10 +110,10 @@ export function Navbar({
         {/* Action Controls */}
         <div className="flex items-center gap-2">
           {/* Subtle System Status Pill */}
-          <div className="hidden items-center gap-1.5 rounded-lg border border-stone-200 bg-stone-50 px-2.5 py-1 text-xs text-stone-600 md:flex">
+          <div className="hidden items-center gap-1.5 rounded-xl border border-stone-200 bg-stone-50 px-2.5 py-1 text-xs text-stone-600 md:flex">
             <span
               className={`h-2 w-2 rounded-full ${
-                backendStatus.online ? "bg-emerald-600" : "bg-amber-500"
+                backendStatus.online ? "bg-emerald-600 animate-pulse" : "bg-amber-500"
               }`}
             />
             <span className="text-[11px] font-medium text-stone-700">
@@ -123,8 +123,9 @@ export function Navbar({
 
           {/* Language Toggle */}
           <button
+            type="button"
             onClick={() => onLanguageChange(lang === "en" ? "hi" : "en")}
-            className="flex items-center gap-1.5 rounded-lg border border-stone-200 bg-white px-2.5 py-1.5 text-xs font-semibold text-stone-700 transition-colors hover:bg-stone-50 hover:border-stone-300 active:scale-95 shadow-2xs"
+            className="flex items-center gap-1.5 rounded-xl border border-stone-200 bg-white px-3 py-1.5 text-xs font-bold text-stone-800 transition-colors hover:bg-stone-50 hover:border-stone-300 active:scale-95 shadow-2xs"
             aria-label="Toggle Language"
           >
             <Globe className="h-3.5 w-3.5 text-stone-500" />
@@ -134,8 +135,9 @@ export function Navbar({
           {/* PWA Install Button */}
           {isInstallable && (
             <button
+              type="button"
               onClick={handleInstallClick}
-              className="flex items-center gap-1.5 rounded-lg bg-emerald-800 px-3 py-1.5 text-xs font-semibold text-white shadow-xs transition-colors hover:bg-emerald-900 active:scale-95"
+              className="flex items-center gap-1.5 rounded-xl bg-emerald-800 px-3.5 py-1.5 text-xs font-bold text-white shadow-xs transition-colors hover:bg-emerald-900 active:scale-95"
             >
               <Download className="h-3.5 w-3.5" />
               <span className="hidden sm:inline">{t.installApp}</span>
@@ -144,15 +146,16 @@ export function Navbar({
         </div>
       </div>
 
-      {/* Modern Clean Segmented Navigation Tabs */}
-      <nav className="flex border-t border-stone-100 bg-stone-50/60 px-4 sm:px-6">
-        <div className="mx-auto flex w-full max-w-5xl justify-around sm:justify-start sm:gap-6">
+      {/* Segmented Navigation Tabs */}
+      <nav className="flex border-t border-stone-100 bg-stone-50/70 px-4 sm:px-6">
+        <div className="mx-auto flex w-full max-w-5xl justify-around sm:justify-start sm:gap-6 overflow-x-auto no-scrollbar">
           <button
+            type="button"
             onClick={() => onTabChange("scan")}
-            className={`flex items-center gap-2 border-b-2 px-3 py-2.5 text-xs font-medium transition-colors sm:text-sm ${
+            className={`flex items-center gap-2 border-b-2 px-3.5 py-2.5 text-xs font-bold whitespace-nowrap transition-colors sm:text-sm ${
               activeTab === "scan"
-                ? "border-emerald-800 text-emerald-900 font-semibold"
-                : "border-transparent text-stone-500 hover:text-stone-800"
+                ? "border-emerald-800 text-emerald-900"
+                : "border-transparent text-stone-600 hover:text-stone-900"
             }`}
           >
             <Shield className="h-4 w-4" />
@@ -160,11 +163,25 @@ export function Navbar({
           </button>
 
           <button
+            type="button"
+            onClick={() => onTabChange("mandi")}
+            className={`flex items-center gap-2 border-b-2 px-3.5 py-2.5 text-xs font-bold whitespace-nowrap transition-colors sm:text-sm ${
+              activeTab === "mandi"
+                ? "border-emerald-800 text-emerald-900"
+                : "border-transparent text-stone-600 hover:text-stone-900"
+            }`}
+          >
+            <Store className="h-4 w-4" />
+            <span>{t.mandiTab}</span>
+          </button>
+
+          <button
+            type="button"
             onClick={() => onTabChange("weather")}
-            className={`flex items-center gap-2 border-b-2 px-3 py-2.5 text-xs font-medium transition-colors sm:text-sm ${
+            className={`flex items-center gap-2 border-b-2 px-3.5 py-2.5 text-xs font-bold whitespace-nowrap transition-colors sm:text-sm ${
               activeTab === "weather"
-                ? "border-emerald-800 text-emerald-900 font-semibold"
-                : "border-transparent text-stone-500 hover:text-stone-800"
+                ? "border-emerald-800 text-emerald-900"
+                : "border-transparent text-stone-600 hover:text-stone-900"
             }`}
           >
             <CloudSun className="h-4 w-4" />
@@ -172,17 +189,18 @@ export function Navbar({
           </button>
 
           <button
+            type="button"
             onClick={() => onTabChange("history")}
-            className={`relative flex items-center gap-2 border-b-2 px-3 py-2.5 text-xs font-medium transition-colors sm:text-sm ${
+            className={`relative flex items-center gap-2 border-b-2 px-3.5 py-2.5 text-xs font-bold whitespace-nowrap transition-colors sm:text-sm ${
               activeTab === "history"
-                ? "border-emerald-800 text-emerald-900 font-semibold"
-                : "border-transparent text-stone-500 hover:text-stone-800"
+                ? "border-emerald-800 text-emerald-900"
+                : "border-transparent text-stone-600 hover:text-stone-900"
             }`}
           >
             <Clock className="h-4 w-4" />
             <span>{t.scanHistory}</span>
             {savedScansCount > 0 && (
-              <span className="ml-1 rounded-full bg-stone-200 px-1.5 py-0.2 text-[10px] font-bold text-stone-700">
+              <span className="ml-1 rounded-full bg-emerald-100 px-1.5 py-0.2 text-[10px] font-bold text-emerald-900 border border-emerald-200">
                 {savedScansCount}
               </span>
             )}

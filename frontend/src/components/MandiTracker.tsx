@@ -3,8 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { 
   TrendingUp, TrendingDown, Minus, MapPin, 
-  Store, Scale, ArrowUpDown, Filter, Loader2, 
-  Search, ShieldAlert
+  Store, Loader2, Search, ShieldAlert
 } from "lucide-react";
 import { Language, MandiPriceRecord, MandiMetaResponse } from "@/types";
 import { translations } from "@/lib/i18n";
@@ -32,7 +31,7 @@ export function MandiTracker({ lang }: MandiTrackerProps) {
       try {
         const meta = await fetchMandiMetadata();
         setMetadata(meta);
-      } catch (err: any) {
+      } catch (err: unknown) {
         console.warn("Failed loading Mandi metadata:", err);
       }
     }
@@ -51,8 +50,9 @@ export function MandiTracker({ lang }: MandiTrackerProps) {
           crop: selectedCrop
         });
         setPrices(data.prices || []);
-      } catch (err: any) {
-        setErrorMsg(err.message || "Failed to retrieve Mandi prices");
+      } catch (err: unknown) {
+        const message = err instanceof Error ? err.message : "Failed to retrieve Mandi prices";
+        setErrorMsg(message);
       } finally {
         setIsLoading(false);
       }

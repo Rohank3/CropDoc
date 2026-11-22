@@ -4,18 +4,20 @@ import React, { useState } from "react";
 import { Navbar } from "@/components/Navbar";
 import { ImageUploader } from "@/components/ImageUploader";
 import { DiagnosisCard } from "@/components/DiagnosisCard";
+import { MandiTracker } from "@/components/MandiTracker";
 import { WeatherCard } from "@/components/WeatherCard";
 import { ScanHistoryView } from "@/components/ScanHistoryView";
 import { InstallBanner } from "@/components/InstallBanner";
-import { Language, DiagnosisResponse, SavedScan } from "@/types";
+import { Language, DiagnosisResponse, SavedScan, LeafValidationResult } from "@/types";
 import { diagnoseCrop } from "@/lib/api";
 import { getSavedScans } from "@/lib/storage";
 import { Sprout, AlertTriangle } from "lucide-react";
 
 export default function Home() {
   const [lang, setLang] = useState<Language>("en");
-  const [activeTab, setActiveTab] = useState<"scan" | "weather" | "history">("scan");
+  const [activeTab, setActiveTab] = useState<"scan" | "mandi" | "weather" | "history">("scan");
   const [diagnosisResult, setDiagnosisResult] = useState<DiagnosisResponse | null>(null);
+  const [validationError, setValidationError] = useState<LeafValidationResult | null>(null);
   const [activeThumbnail, setActiveThumbnail] = useState<string | null>(null);
   const [isAnalyzing, setIsAnalyzing] = useState<boolean>(false);
   const [savedScansCount, setSavedScansCount] = useState<number>(() => {
@@ -35,10 +37,18 @@ export default function Home() {
   ) => {
     setIsAnalyzing(true);
     setErrorMessage(null);
+    setValidationError(null);
+
     try {
       const response = await diagnoseCrop(imageBlob, location);
-      setDiagnosisResult(response);
-      setActiveThumbnail(previewUrl);
+      if (response.status === "rejected") {
+        setValidationError(response.validation);
+        setDiagnosisResult(null);
+      } else {
+        setDiagnosisResult(response);
+        setActiveThumbnail(previewUrl);
+        setValidationError(null);
+      }
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : "Failed to analyze leaf image. Ensure the backend server is running.";
       setErrorMessage(msg);
@@ -51,20 +61,31 @@ export default function Home() {
     setDiagnosisResult(null);
     setActiveThumbnail(null);
     setErrorMessage(null);
+    setValidationError(null);
   };
 
   const handleSelectHistoricalScan = (scan: SavedScan) => {
     setDiagnosisResult({
       status: "success",
+      stage_applied: "stage2_cv",
+      validation: {
+        is_valid: true,
+        is_blurry: false,
+        has_foliage: true,
+        blur_score: 100,
+        foliage_ratio: 90,
+        message: "Historical scan",
+        message_hi: "सहेजा गया स्कैन"
+      },
       diagnosis: scan.diagnosis,
       is_confident: true,
       top_candidates: [scan.diagnosis],
       advisory: scan.advisory,
       weather_context: scan.weatherSnapshot
         ? {
-            location: { name: "Saved Location" },
+            location: { city: "Saved Location", country: "India" },
             weather: scan.weatherSnapshot,
-            agro_advisory: {
+            agro_risk_assessment: {
               fungal_outbreak_risk: "Historical",
               risk_factors: ["Snapshot from original diagnostic scan."],
               spraying_advisory: "Review current live weather before field application.",
@@ -114,6 +135,8 @@ export default function Home() {
                 lang={lang}
                 onAnalyze={handleAnalyze}
                 isAnalyzing={isAnalyzing}
+                validationError={validationError}
+                onClearValidation={() => setValidationError(null)}
               />
             ) : (
               <DiagnosisCard
@@ -127,7 +150,12 @@ export default function Home() {
           </div>
         )}
 
-        {/* Tab 2: Agro-Weather Dashboard */}
+        {/* Tab 2: APMC Mandi Market Prices */}
+        {activeTab === "mandi" && (
+          <MandiTracker lang={lang} />
+        )}
+
+        {/* Tab 3: Agro-Weather & Spraying Advisory */}
         {activeTab === "weather" && (
           <WeatherCard
             lang={lang}
@@ -135,7 +163,7 @@ export default function Home() {
           />
         )}
 
-        {/* Tab 3: Offline Scan History */}
+        {/* Tab 4: Offline Scan History */}
         {activeTab === "history" && (
           <ScanHistoryView
             lang={lang}
@@ -153,7 +181,7 @@ export default function Home() {
               <Sprout className="h-3.5 w-3.5" />
             </div>
             <span className="font-bold text-stone-900">CropDoc</span>
-            <span>— Agricultural Pathology &amp; Weather System</span>
+            <span>— Indian Agricultural Pathology, Mandi &amp; Weather System</span>
           </div>
 
           <div className="flex items-center gap-4">
@@ -169,7 +197,7 @@ export default function Home() {
               <span>GitHub</span>
             </a>
             <span>•</span>
-            <span>Verified Botanical Science &amp; Telemetry</span>
+            <span>CIBRC Standards &amp; APMC Mandi Intelligence</span>
           </div>
         </div>
       </footer>
