@@ -1,26 +1,30 @@
 """
 CropDoc - Local PyTorch Model Training & Fine-Tuning Pipeline
-Designed to run on local GPU (CUDA), Apple Silicon (MPS), or CPU.
+Runs on local GPU (CUDA), Apple Silicon (MPS), or CPU with Cosine Annealing and ONNX export.
 """
 
 import os
+import sys
 import argparse
 import time
 import torch
 import torch.nn as nn
 from torch.utils.data import DataLoader, random_split
 from torchvision import datasets, models, transforms
-from app.ml.labels import PLANT_VILLAGE_CLASSES
+
+# Ensure backend root is on sys.path
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..")))
+from app.ml.labels import ALL_CROP_CLASSES
 
 def parse_args():
     parser = argparse.ArgumentParser(description="Train CropDoc MobileNetV2 on Plant Pathology Dataset")
     parser.add_argument("--data-dir", type=str, default="./data/plantvillage", help="Root directory containing class image folders")
     parser.add_argument("--output-dir", type=str, default="./models", help="Directory where trained checkpoints will be saved")
-    parser.add_argument("--epochs", type=int, default=15, help="Number of training epochs")
+    parser.add_argument("--epochs", type=int, default=5, help="Number of training epochs")
     parser.add_argument("--batch-size", type=int, default=32, help="Batch size for training")
     parser.add_argument("--lr", type=float, default=1e-3, help="Initial learning rate")
     parser.add_argument("--val-split", type=float, default=0.2, help="Fraction of data reserved for validation")
-    parser.add_argument("--device", type=str, default="auto", choices=["auto", "cuda", "mps", "cpu"], help="Training hardware accelerator")
+    parser.add_argument("--device", type=str, default="cuda", choices=["auto", "cuda", "mps", "cpu"], help="Training hardware accelerator")
     return parser.parse_args()
 
 def get_device(device_arg: str) -> torch.device:
@@ -40,7 +44,7 @@ def get_device(device_arg: str) -> torch.device:
 def main():
     args = parse_args()
     device = get_device(args.device)
-    print(f"[CropDoc ML] Using compute device: {device}")
+    print(f"[CropDoc ML] Using compute device: {device} ({torch.cuda.get_device_name(0) if device.type == 'cuda' else 'CPU'})")
     
     if not os.path.exists(args.data_dir):
         print(f"[Error] Dataset directory '{args.data_dir}' not found.")
@@ -54,8 +58,8 @@ def main():
         transforms.Resize((224, 224)),
         transforms.RandomHorizontalFlip(p=0.5),
         transforms.RandomVerticalFlip(p=0.3),
-        transforms.RandomRotation(degrees=20),
-        transforms.ColorJitter(brightness=0.2, contrast=0.2, saturation=0.2),
+        transforms.RandomRotation(degrees=15),
+        transforms.ColorJitter(brightness=0.15, contrast=0.15, saturation=0.15),
         transforms.ToTensor(),
         transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
     ])
@@ -76,12 +80,12 @@ def main():
     print(f"[CropDoc ML] Loaded {total_samples} images across {num_classes} classes.")
     train_subset, val_subset = random_split(full_dataset, [train_size, val_size])
 
-    train_loader = DataLoader(train_subset, batch_size=args.batch_size, shuffle=True, num_workers=2, pin_memory=True)
-    val_loader = DataLoader(val_subset, batch_size=args.batch_size, shuffle=False, num_workers=2, pin_memory=True)
+    train_loader = DataLoader(train_subset, batch_size=args.batch_size, shuffle=True, num_workers=0, pin_memory=True if device.type == "cuda" else False)
+    val_loader = DataLoader(val_subset, batch_size=args.batch_size, shuffle=False, num_workers=0, pin_memory=True if device.type == "cuda" else False)
 
     # 3. Model Architecture (MobileNetV2 Transfer Learning)
     model = models.mobilenet_v2(weights=models.MobileNet_V2_Weights.DEFAULT)
-    # Freeze feature extractor initially
+    # Freeze backbone initially for fast warm-up
     for param in model.features.parameters():
         param.requires_grad = False
     
@@ -93,23 +97,23 @@ def main():
     )
     model.to(device)
 
-    criterion = nn.CrossEntropyLoss(label_smoothing=0.1)
+    criterion = nn.CrossEntropyLoss(label_smoothing=0.05)
     optimizer = torch.optim.AdamW(model.classifier.parameters(), lr=args.lr, weight_decay=1e-4)
     scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=args.epochs)
 
     best_val_acc = 0.0
     checkpoint_path = os.path.join(args.output_dir, "cropdoc_mobilenetv2.pth")
 
-    print("[CropDoc ML] Commencing training loop...")
+    print("[CropDoc ML] Commencing training loop on GPU...")
     for epoch in range(1, args.epochs + 1):
         start_time = time.time()
         
-        # Unfreeze all layers for fine-tuning after epoch 3
-        if epoch == 4:
-            print("[CropDoc ML] Unfreezing full backbone for fine-tuning...")
+        # Fine-tune entire backbone from epoch 2
+        if epoch == 2:
+            print("[CropDoc ML] Unfreezing full backbone for end-to-end fine-tuning...")
             for param in model.features.parameters():
                 param.requires_grad = True
-            optimizer = torch.optim.AdamW(model.parameters(), lr=args.lr * 0.1, weight_decay=1e-4)
+            optimizer = torch.optim.AdamW(model.parameters(), lr=args.lr * 0.2, weight_decay=1e-4)
 
         # Training Phase
         model.train()
@@ -131,8 +135,8 @@ def main():
             total_train += images.size(0)
 
         scheduler.step()
-        epoch_train_loss = train_loss / total_train
-        epoch_train_acc = (train_correct / total_train) * 100
+        epoch_train_loss = train_loss / total_train if total_train > 0 else 0
+        epoch_train_acc = (train_correct / total_train) * 100 if total_train > 0 else 0
 
         # Validation Phase
         model.eval()
@@ -150,8 +154,8 @@ def main():
                 val_correct += torch.sum(preds == labels.data).item()
                 total_val += images.size(0)
 
-        epoch_val_loss = val_loss / total_val
-        epoch_val_acc = (val_correct / total_val) * 100
+        epoch_val_loss = val_loss / total_val if total_val > 0 else 0
+        epoch_val_acc = (val_correct / total_val) * 100 if total_val > 0 else 0
         elapsed = time.time() - start_time
 
         print(
@@ -161,8 +165,8 @@ def main():
         )
 
         # Save Best Model Checkpoint
-        if epoch_val_acc > best_val_acc:
-            best_val_acc = epoch_val_acc
+        if epoch_val_acc > best_val_acc or epoch == 1:
+            best_val_acc = max(best_val_acc, epoch_val_acc)
             torch.save({
                 "epoch": epoch,
                 "model_state_dict": model.state_dict(),
@@ -171,21 +175,26 @@ def main():
             }, checkpoint_path)
             print(f" -> Checkpoint saved (Val Acc: {best_val_acc:.2f}%) to {checkpoint_path}")
 
-    # Export to ONNX for rapid production inference
+    # Export to ONNX for production inference
     print("[CropDoc ML] Exporting best model to ONNX format...")
     onnx_path = os.path.join(args.output_dir, "cropdoc_mobilenetv2.onnx")
     dummy_input = torch.randn(1, 3, 224, 224).to(device)
     model.eval()
-    torch.onnx.export(
-        model, 
-        dummy_input, 
-        onnx_path, 
-        input_names=["input"], 
-        output_names=["output"],
-        dynamic_axes={"input": {0: "batch_size"}, "output": {0: "batch_size"}},
-        opset_version=14
-    )
-    print(f"[CropDoc ML] ONNX model exported to {onnx_path}")
+    try:
+        torch.onnx.export(
+            model, 
+            dummy_input, 
+            onnx_path, 
+            input_names=["input"], 
+            output_names=["output"],
+            dynamic_axes={"input": {0: "batch_size"}, "output": {0: "batch_size"}},
+            opset_version=14
+        )
+        print(f"[CropDoc ML] ONNX model successfully exported to {onnx_path}")
+    except Exception as onnx_err:
+        print(f"[CropDoc ML] ONNX export warning ({onnx_err}), PyTorch .pth checkpoint is primary.")
+
+    print(f"\n[CropDoc ML] Training pipeline finished successfully! Best Val Accuracy: {best_val_acc:.2f}%")
 
 if __name__ == "__main__":
     main()

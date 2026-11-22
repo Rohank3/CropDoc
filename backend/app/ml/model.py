@@ -20,6 +20,7 @@ class PlantDiseaseModel:
         self.model = None
         self.hf_model = None
         self.hf_processor = None
+        self.custom_classes = None
         self.transform = transforms.Compose([
             transforms.Resize((224, 224)),
             transforms.ToTensor(),
@@ -47,24 +48,40 @@ class PlantDiseaseModel:
         return torch.device("cpu")
 
     def _load_model(self):
-        """Initializes model with priority: 1) Local custom weights, 2) Pre-trained HF model, 3) Torchvision MobileNetV2."""
+        """Initializes model with priority: 1) Local fine-tuned weights, 2) Pre-trained HF model, 3) Torchvision MobileNetV2."""
         custom_weights = settings.MODEL_WEIGHTS_PATH or os.path.join(
             os.path.dirname(__file__), "..", "..", "models", "cropdoc_mobilenetv2.pth"
         )
         if custom_weights and os.path.exists(custom_weights):
             try:
                 print(f"Loading custom fine-tuned weights from {custom_weights} onto {self.device}...")
-                net = models.mobilenet_v2(weights=None)
-                net.classifier[1] = nn.Linear(net.classifier[1].in_features, self.num_classes)
                 checkpoint = torch.load(custom_weights, map_location=self.device)
                 state_dict = checkpoint["model_state_dict"] if "model_state_dict" in checkpoint else checkpoint
+                classes_in_ckpt = checkpoint.get("classes", None)
+
+                net = models.mobilenet_v2(weights=None)
+                in_feat = net.classifier[1].in_features
+
+                # Check if trained with Sequential head
+                if any(k.startswith("classifier.1.1.") for k in state_dict.keys()):
+                    num_ckpt_classes = state_dict["classifier.1.1.weight"].shape[0]
+                    net.classifier[1] = nn.Sequential(
+                        nn.Dropout(p=0.2),
+                        nn.Linear(in_feat, num_ckpt_classes)
+                    )
+                else:
+                    num_ckpt_classes = state_dict["classifier.1.weight"].shape[0]
+                    net.classifier[1] = nn.Linear(in_feat, num_ckpt_classes)
+
                 net.load_state_dict(state_dict)
                 net.to(self.device)
                 net.eval()
                 self.model = net
+                self.custom_classes = classes_in_ckpt
+                print(f"Successfully loaded custom fine-tuned model ({num_ckpt_classes} classes) onto {self.device}.")
                 return
             except Exception as e:
-                print(f"Failed loading custom weights ({e}), falling back...")
+                print(f"Failed loading custom weights ({e}), falling back to HF/backbone...")
 
         # 2. Try Hugging Face pretrained PlantVillage model
         try:
@@ -90,6 +107,32 @@ class PlantDiseaseModel:
 
     def _predict_stage2(self, image: Image.Image) -> List[Dict[str, Any]]:
         """Executes Stage 2 deep computer vision classification."""
+        # 1. Custom fine-tuned checkpoint path
+        if self.model is not None and self.custom_classes is not None:
+            tensor = self.transform(image).unsqueeze(0).to(self.device)
+            with torch.no_grad():
+                outputs = self.model(tensor)
+                probs = torch.softmax(outputs, dim=1)[0]
+
+            top_k = min(3, len(self.custom_classes))
+            top_probs, top_indices = torch.topk(probs, top_k)
+            top_candidates = []
+            for p, idx in zip(top_probs, top_indices):
+                raw_label = self.custom_classes[idx.item()]
+                parsed = parse_class_name(raw_label)
+                top_candidates.append({
+                    "raw_label": raw_label,
+                    "crop": parsed["crop"],
+                    "condition": parsed["condition"],
+                    "is_healthy": parsed["is_healthy"],
+                    "display_name": parsed["display_name"],
+                    "crop_hi": parsed.get("crop_hi", parsed["crop"]),
+                    "condition_hi": parsed.get("condition_hi", parsed["condition"]),
+                    "confidence_score": round(float(p) * 100, 2)
+                })
+            return top_candidates
+
+        # 2. HF Model path
         if self.hf_model is not None and self.hf_processor is not None:
             inputs = self.hf_processor(images=image, return_tensors="pt").to(self.device)
             with torch.no_grad():
@@ -116,7 +159,7 @@ class PlantDiseaseModel:
                 })
             return top_candidates
 
-        # PyTorch Native path
+        # 3. Fallback PyTorch Native path
         tensor = self.transform(image).unsqueeze(0).to(self.device)
         with torch.no_grad():
             outputs = self.model(tensor)
@@ -140,90 +183,11 @@ class PlantDiseaseModel:
             })
         return top_candidates
 
-    def _diagnose_stage3_multimodal(self, image_bytes: bytes, stage2_candidates: List[Dict[str, Any]]) -> Optional[Dict[str, Any]]:
-        """Stage 3: Multimodal Agronomic Vision (Gemini 2.5 Flash) for field photos or ambiguous confidence."""
-        gemini_key = settings.GEMINI_API_KEY.strip()
-        if not gemini_key:
-            return None
-
-        try:
-            from google import genai
-            from google.genai import types
-            client = genai.Client(api_key=gemini_key)
-
-            candidate_summary = ", ".join([f"{c['raw_label']} ({c['confidence_score']}%)" for c in stage2_candidates])
-            classes_str = ", ".join(self.classes)
-
-            prompt = (
-                "You are an expert plant pathologist and field agronomist specializing in Indian agriculture.\n"
-                "Analyze this field photo of a crop leaf carefully.\n"
-                f"Candidate classes considered by Stage 2 CV: [{candidate_summary}].\n"
-                f"Available taxonomy: [{classes_str}].\n\n"
-                "Determine the EXACT crop and disease. Note whether there are human hands, soil, or mixed lesions.\n"
-                "Respond ONLY with a JSON object in the following format with no markdown wrappers:\n"
-                "{\n"
-                '  "raw_label": "One exact label from available taxonomy (e.g. Rice___Leaf_Blast)",\n'
-                '  "crop": "Crop name in English",\n'
-                '  "condition": "Condition/disease name",\n'
-                '  "is_healthy": true/false,\n'
-                '  "confidence_score": 88.5,\n'
-                '  "visual_reasoning": "Brief 1-2 sentence visual description of the leaf lesion and symptoms observed."\n'
-                "}"
-            )
-
-            # Determine mime type
-            mime = "image/jpeg"
-            if image_bytes.startswith(b"\x89PNG"):
-                mime = "image/png"
-            elif image_bytes.startswith(b"RIFF") and b"WEBP" in image_bytes[:16]:
-                mime = "image/webp"
-
-            response = client.models.generate_content(
-                model="gemini-2.5-flash",
-                contents=[
-                    types.Part.from_bytes(data=image_bytes, mime_type=mime),
-                    prompt
-                ]
-            )
-
-            if response and response.text:
-                cleaned_text = response.text.strip()
-                # Remove code blocks if present
-                match = re.search(r"\{.*\}", cleaned_text, re.DOTALL)
-                if match:
-                    data = json.loads(match.group(0))
-                    raw_label = data.get("raw_label", "")
-                    if raw_label not in self.classes:
-                        # Find closest match if needed
-                        for c in self.classes:
-                            if data.get("crop", "").lower() in c.lower() and data.get("condition", "").lower() in c.lower():
-                                raw_label = c
-                                break
-                        if not raw_label:
-                            raw_label = stage2_candidates[0]["raw_label"] if stage2_candidates else self.classes[0]
-
-                    parsed = parse_class_name(raw_label)
-                    return {
-                        "raw_label": raw_label,
-                        "crop": parsed["crop"],
-                        "condition": parsed["condition"],
-                        "is_healthy": parsed["is_healthy"],
-                        "display_name": parsed["display_name"],
-                        "crop_hi": parsed.get("crop_hi", parsed["crop"]),
-                        "condition_hi": parsed.get("condition_hi", parsed["condition"]),
-                        "confidence_score": float(data.get("confidence_score", 90.0)),
-                        "visual_reasoning": data.get("visual_reasoning", "Diagnosed with multimodal agronomic vision.")
-                    }
-        except Exception as e:
-            print(f"Stage 3 Multimodal fallback error ({e}). Using Stage 2 results.")
-        return None
-
     def predict(self, image_bytes: bytes) -> Dict[str, Any]:
         """
         Runs the Hierarchical 3-Stage Field Pipeline:
         - Stage 1: Fast CV Pre-filter (<50ms) for blur and foliage validation.
-        - Stage 2: Deep Computer Vision classification on 62-class taxonomy.
-        - Stage 3: Multimodal Gemini 2.5 Flash Vision fallback for complex/borderline field photos.
+        - Stage 2: Deep Computer Vision classification on local fine-tuned PyTorch model.
         """
         # --- Stage 1: Validation Pre-Filter ---
         validation = validate_leaf_image(image_bytes)
@@ -246,22 +210,6 @@ class PlantDiseaseModel:
         top_candidates = self._predict_stage2(image)
         top_pred = top_candidates[0] if top_candidates else None
         stage_applied = "stage2_cv"
-
-        # --- Stage 3: Multimodal Fallback Check ---
-        # Activate Stage 3 if:
-        # a) Top confidence is below threshold (< 65%), OR
-        # b) Gemini API key is configured and top prediction confidence is < 85%
-        needs_multimodal = (
-            top_pred is None or 
-            top_pred["confidence_score"] < 65.0 or 
-            (bool(settings.GEMINI_API_KEY.strip()) and top_pred["confidence_score"] < 80.0)
-        )
-
-        if needs_multimodal:
-            multimodal_result = self._diagnose_stage3_multimodal(image_bytes, top_candidates)
-            if multimodal_result:
-                top_pred = multimodal_result
-                stage_applied = "stage3_multimodal"
 
         is_confident = (top_pred["confidence_score"] >= (settings.CONFIDENCE_THRESHOLD * 100)) if top_pred else False
 

@@ -9,13 +9,13 @@ class Settings(BaseSettings):
     # Weather & Agro-Meteorology (OpenWeatherMap)
     OPENWEATHER_API_KEY: str = Field(default="", description="OpenWeatherMap API Key")
     
-    # Optional dynamic AI reasoning enrichment
-    GEMINI_API_KEY: str = Field(default="", description="Google Gemini API Key for dynamic advisory")
+    # Dynamic Multimodal AI reasoning enrichment
+    GEMINI_API_KEY: str = Field(default="", description="Google Gemini API Key for dynamic multimodal analysis and advisory")
     
     # ML Model Config
     MODEL_WEIGHTS_PATH: Optional[str] = Field(default=None, description="Path to custom fine-tuned PyTorch checkpoint (.pth)")
     DEVICE: str = Field(default="auto", description="Compute device: 'cuda', 'mps', 'cpu', or 'auto'")
-    CONFIDENCE_THRESHOLD: float = Field(default=0.35, description="Minimum top-1 confidence score to accept diagnosis")
+    CONFIDENCE_THRESHOLD: float = Field(default=0.70, description="Minimum top-1 confidence score to accept local diagnosis without Gemini multimodal fallback")
     
     # CORS
     CORS_ORIGINS: List[str] = ["http://localhost:3000", "http://127.0.0.1:3000", "*"]

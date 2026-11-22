@@ -1,6 +1,6 @@
 """
 CropDoc - PlantVillage Dataset Downloader
-Fetches the benchmark PlantVillage crop disease dataset directly from Hugging Face or public mirrors.
+Fetches benchmark PlantVillage pathology dataset from Hugging Face and structures into class folders.
 """
 
 import os
@@ -10,6 +10,7 @@ import argparse
 def main():
     parser = argparse.ArgumentParser(description="Download PlantVillage plant pathology dataset")
     parser.add_argument("--dest", type=str, default="./data/plantvillage", help="Destination folder")
+    parser.add_argument("--limit-per-class", type=int, default=150, help="Max images per class to extract for efficient local training")
     args = parser.parse_args()
 
     os.makedirs(args.dest, exist_ok=True)
@@ -17,28 +18,37 @@ def main():
 
     try:
         from datasets import load_dataset
-        print("[CropDoc Data] Fetching 'mohanty/PlantVillage' via Hugging Face datasets...")
-        dataset = load_dataset("mohanty/PlantVillage", split="train")
-        print(f"[CropDoc Data] Successfully accessed dataset with {len(dataset)} images.")
-        print("[CropDoc Data] Extracting and structuring images into class folders...")
+        print("[CropDoc Data] Loading 'GVJahnavi/Plant_village_subset' from Hugging Face cache...")
+        ds = load_dataset("GVJahnavi/Plant_village_subset")
+        train_data = ds["train"]
+        class_names = train_data.features["label"].names
+        print(f"[CropDoc Data] Dataset contains {len(train_data)} images across {len(class_names)} classes.")
+        
+        counts = {c: 0 for c in class_names}
+        saved_total = 0
 
-        for idx, item in enumerate(dataset):
-            img = item["image"]
-            label = item["label"]
-            class_name = dataset.features["label"].names[label]
+        for idx, item in enumerate(train_data):
+            label_idx = item["label"]
+            class_name = class_names[label_idx]
+
+            if counts[class_name] >= args.limit_per_class:
+                continue
+
             class_dir = os.path.join(args.dest, class_name)
             os.makedirs(class_dir, exist_ok=True)
-            img.save(os.path.join(class_dir, f"img_{idx:05d}.jpg"))
+            
+            img = item["image"].convert("RGB")
+            img.save(os.path.join(class_dir, f"img_{counts[class_name]:04d}.jpg"))
+            counts[class_name] += 1
+            saved_total += 1
 
-            if (idx + 1) % 1000 == 0:
-                print(f" -> Processed {idx + 1}/{len(dataset)} images...")
+            if saved_total % 250 == 0:
+                print(f" -> Extracted {saved_total} balanced images into class folders...")
 
-        print(f"[CropDoc Data] Completed! Dataset ready in {args.dest}")
-    except ImportError:
-        print("[Notice] 'datasets' library is not installed.")
-        print("To download automatically, install: pip install datasets")
-        print("Alternatively, download from Kaggle: https://www.kaggle.com/datasets/emmarex/plantdisease")
-        print(f"and extract folders directly into: {os.path.abspath(args.dest)}")
+        print(f"[CropDoc Data] Complete! Successfully extracted {saved_total} images across {len(class_names)} classes into {args.dest}")
+    except Exception as e:
+        print(f"[CropDoc Data Error]: {str(e)}")
+        sys.exit(1)
 
 if __name__ == "__main__":
     main()
