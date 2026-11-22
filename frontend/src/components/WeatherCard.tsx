@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import { 
   CloudSun, Droplets, Wind, CloudRain, Thermometer, 
   MapPin, Search, AlertTriangle, CheckCircle2, ShieldAlert,
-  Loader2
+  Loader2, WifiOff, Clock
 } from "lucide-react";
 import { WeatherData, Language } from "@/types";
 import { translations } from "@/lib/i18n";
@@ -22,8 +22,10 @@ export function WeatherCard({ lang, initialData }: WeatherCardProps) {
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [cityInput, setCityInput] = useState<string>("");
   const [activeLocationName, setActiveLocationName] = useState<string>(
-    initialData?.location.name ? `${initialData.location.name}, ${initialData.location.country}` : "Farm Location"
+    initialData?.location.city ? `${initialData.location.city}, ${initialData.location.country}` : "Farm Location"
   );
+
+  const agroAdvisory = weatherData?.agro_risk_assessment || weatherData?.agro_advisory;
 
   const loadWeatherByCoords = (lat: number, lon: number) => {
     setLoading(true);
@@ -31,7 +33,7 @@ export function WeatherCard({ lang, initialData }: WeatherCardProps) {
     fetchAgroWeather({ lat, lon })
       .then((data) => {
         setWeatherData(data);
-        setActiveLocationName(data.location.name ? `${data.location.name}, ${data.location.country}` : "Farm Location");
+        setActiveLocationName(data.location.city ? `${data.location.city}, ${data.location.country}` : "Farm Coordinates");
       })
       .catch((err) => {
         setErrorMsg(err.message);
@@ -46,7 +48,7 @@ export function WeatherCard({ lang, initialData }: WeatherCardProps) {
     fetchAgroWeather({ city: city.trim() })
       .then((data) => {
         setWeatherData(data);
-        setActiveLocationName(`${data.location.name}, ${data.location.country}`);
+        setActiveLocationName(`${data.location.city}, ${data.location.country}`);
       })
       .catch((err) => {
         setErrorMsg(err.message);
@@ -84,15 +86,15 @@ export function WeatherCard({ lang, initialData }: WeatherCardProps) {
               if (isMounted) loadWeatherByCoords(pos.coords.latitude, pos.coords.longitude);
             },
             () => {
-              if (isMounted) loadWeatherByCity("New Delhi");
+              if (isMounted) loadWeatherByCity("Ludhiana");
             },
             { timeout: 5000 }
           );
         } else {
-          if (isMounted) loadWeatherByCity("New Delhi");
+          if (isMounted) loadWeatherByCity("Ludhiana");
         }
       } catch {
-        if (isMounted) loadWeatherByCity("New Delhi");
+        if (isMounted) loadWeatherByCity("Ludhiana");
       }
     };
 
@@ -102,22 +104,23 @@ export function WeatherCard({ lang, initialData }: WeatherCardProps) {
     };
   }, [initialData]);
 
-  const getFungalBadge = (risk: string) => {
-    switch (risk.toLowerCase()) {
+  const getFungalBadge = (risk?: string) => {
+    const r = (risk || "Low").toLowerCase();
+    switch (r) {
       case "critical":
       case "high":
         return {
-          bg: "bg-rose-50 text-rose-800 ring-1 ring-rose-600/20",
+          bg: "bg-rose-100 text-rose-900 ring-1 ring-rose-400",
           icon: ShieldAlert
         };
       case "moderate":
         return {
-          bg: "bg-amber-50 text-amber-800 ring-1 ring-amber-600/20",
+          bg: "bg-amber-100 text-amber-900 ring-1 ring-amber-400",
           icon: AlertTriangle
         };
       default:
         return {
-          bg: "bg-emerald-50 text-emerald-800 ring-1 ring-emerald-600/20",
+          bg: "bg-emerald-100 text-emerald-900 ring-1 ring-emerald-400",
           icon: CheckCircle2
         };
     }
@@ -163,12 +166,27 @@ export function WeatherCard({ lang, initialData }: WeatherCardProps) {
         </button>
       </div>
 
+      {/* Field Offline Mode Banner if active */}
+      {weatherData?.field_offline_mode && (
+        <div className="flex items-center gap-2.5 rounded-2xl border border-stone-300 bg-stone-100 px-4 py-3 text-xs text-stone-800">
+          <WifiOff className="h-4 w-4 text-stone-600 shrink-0" />
+          <div className="flex-1">
+            <strong className="font-bold block text-stone-900">{t.fieldOfflineMode}</strong>
+            <span className="text-stone-600">
+              {lang === "hi" 
+                ? "लाइव इंटरनेट अनुपलब्ध होने के कारण क्षेत्रीय कृषि मौसमी औसत प्रदर्शित किया जा रहा है।" 
+                : "Using regional agro-climatic seasonal baselines for field resilience."}
+            </span>
+          </div>
+        </div>
+      )}
+
       {/* Error Notice */}
       {errorMsg && (
         <div className="flex items-center gap-3 rounded-2xl border border-amber-200 bg-amber-50 p-4 text-xs text-amber-900 sm:text-sm">
           <AlertTriangle className="h-5 w-5 flex-shrink-0 text-amber-700" />
           <div className="space-y-0.5">
-            <p className="font-semibold text-amber-950">Weather Telemetry Notice:</p>
+            <p className="font-semibold text-amber-950">Weather Notice:</p>
             <p>{errorMsg}</p>
           </div>
         </div>
@@ -204,7 +222,9 @@ export function WeatherCard({ lang, initialData }: WeatherCardProps) {
                 </div>
 
                 <p className="mt-1 text-sm font-semibold capitalize text-emerald-800">
-                  {weatherData.weather.description}
+                  {lang === "hi" && weatherData.weather.condition_hi 
+                    ? weatherData.weather.condition_hi 
+                    : weatherData.weather.description || weatherData.weather.condition}
                 </p>
               </div>
 
@@ -238,71 +258,87 @@ export function WeatherCard({ lang, initialData }: WeatherCardProps) {
 
               <div className="rounded-2xl border border-stone-100 bg-stone-50/80 p-3 text-center">
                 <Thermometer className="mx-auto h-4 w-4 text-emerald-800 mb-1" />
-                <span className="text-[11px] text-stone-500 uppercase block font-semibold">Min / Max</span>
-                <span className="text-sm font-bold text-stone-900">
-                  {Math.round(weatherData.weather.temp_min_c)}° / {Math.round(weatherData.weather.temp_max_c)}°
+                <span className="text-[11px] text-stone-500 uppercase block font-semibold">Atmospheric</span>
+                <span className="text-base font-bold text-stone-900">
+                  {weatherData.weather.pressure_hpa} hPa
                 </span>
               </div>
             </div>
           </div>
 
           {/* Spraying Window & Agro-Risk Cards */}
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            {/* Spraying Window Box */}
-            <div className={`overflow-hidden rounded-3xl border p-5 shadow-xs ${
-              weatherData.agro_advisory.is_spraying_favorable
-                ? "border-emerald-200 bg-emerald-50/80"
-                : "border-amber-200 bg-amber-50/80"
-            }`}>
-              <div className="flex items-center gap-2.5">
-                {weatherData.agro_advisory.is_spraying_favorable ? (
-                  <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-emerald-100 text-emerald-800">
-                    <CheckCircle2 className="h-4.5 w-4.5" />
+          {agroAdvisory && (
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+              {/* Spraying Window Box */}
+              <div className={`overflow-hidden rounded-3xl border p-5 shadow-xs ${
+                agroAdvisory.is_spraying_favorable
+                  ? "border-emerald-300 bg-emerald-50/90"
+                  : "border-amber-300 bg-amber-50/90"
+              }`}>
+                <div className="flex items-center justify-between gap-2.5">
+                  <div className="flex items-center gap-2.5">
+                    {agroAdvisory.is_spraying_favorable ? (
+                      <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-emerald-200 text-emerald-900">
+                        <CheckCircle2 className="h-5 w-5" />
+                      </div>
+                    ) : (
+                      <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-amber-200 text-amber-900">
+                        <AlertTriangle className="h-5 w-5" />
+                      </div>
+                    )}
+                    <div>
+                      <h4 className="text-sm font-bold text-stone-900">{t.sprayingWindow}</h4>
+                      <span className={`text-xs font-black ${
+                        agroAdvisory.is_spraying_favorable ? "text-emerald-800" : "text-amber-800"
+                      }`}>
+                        {agroAdvisory.is_spraying_favorable ? t.safeToSpray : t.dangerToSpray}
+                      </span>
+                    </div>
                   </div>
-                ) : (
-                  <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-amber-100 text-amber-800">
-                    <AlertTriangle className="h-4.5 w-4.5" />
+
+                  {agroAdvisory.recommended_hours && (
+                    <span className="rounded-lg bg-white px-2.5 py-1 text-[11px] font-bold text-stone-700 border border-stone-200 flex items-center gap-1">
+                      <Clock className="w-3 h-3 text-emerald-700" />
+                      <span>{agroAdvisory.recommended_hours}</span>
+                    </span>
+                  )}
+                </div>
+
+                <p className="mt-3 text-xs leading-relaxed text-stone-800 sm:text-sm font-medium">
+                  {lang === "hi" && agroAdvisory.spraying_advisory_hi 
+                    ? agroAdvisory.spraying_advisory_hi 
+                    : agroAdvisory.spraying_advisory}
+                </p>
+              </div>
+
+              {/* Fungal Outbreak Risk Box */}
+              <div className="overflow-hidden rounded-3xl border border-stone-200 bg-white p-5 shadow-xs">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <ShieldAlert className="h-4.5 w-4.5 text-stone-600" />
+                    <h4 className="text-sm font-bold text-stone-900">{t.weatherRisk}</h4>
                   </div>
-                )}
-                <div>
-                  <h4 className="text-sm font-bold text-stone-900">{t.sprayingWindow}</h4>
-                  <span className={`text-xs font-semibold ${
-                    weatherData.agro_advisory.is_spraying_favorable ? "text-emerald-800" : "text-amber-800"
+                  <span className={`rounded-lg px-2.5 py-1 text-xs font-bold ${
+                    getFungalBadge(agroAdvisory.fungal_outbreak_risk).bg
                   }`}>
-                    {weatherData.agro_advisory.is_spraying_favorable ? t.safeToSpray : t.dangerToSpray}
+                    {agroAdvisory.fungal_outbreak_risk}
                   </span>
                 </div>
+
+                <ul className="mt-3 space-y-1.5 text-xs leading-relaxed text-stone-700">
+                  {(lang === "hi" && agroAdvisory.risk_factors_hi?.length 
+                    ? agroAdvisory.risk_factors_hi 
+                    : agroAdvisory.risk_factors || []
+                  ).map((factor, idx) => (
+                    <li key={idx} className="flex items-start gap-2">
+                      <span className="text-stone-400 font-bold">•</span>
+                      <span>{factor}</span>
+                    </li>
+                  ))}
+                </ul>
               </div>
-
-              <p className="mt-3 text-xs leading-relaxed text-stone-700 sm:text-sm">
-                {weatherData.agro_advisory.spraying_advisory}
-              </p>
             </div>
-
-            {/* Fungal Outbreak Risk Box */}
-            <div className="overflow-hidden rounded-3xl border border-stone-200 bg-white p-5 shadow-xs">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <ShieldAlert className="h-4.5 w-4.5 text-stone-600" />
-                  <h4 className="text-sm font-bold text-stone-900">{t.weatherRisk}</h4>
-                </div>
-                <span className={`rounded-md px-2.5 py-0.5 text-xs font-bold ${
-                  getFungalBadge(weatherData.agro_advisory.fungal_outbreak_risk).bg
-                }`}>
-                  {weatherData.agro_advisory.fungal_outbreak_risk}
-                </span>
-              </div>
-
-              <ul className="mt-3 space-y-1.5 text-xs leading-relaxed text-stone-600">
-                {weatherData.agro_advisory.risk_factors.map((factor, idx) => (
-                  <li key={idx} className="flex items-start gap-2">
-                    <span className="text-stone-400 font-bold">•</span>
-                    <span>{factor}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
+          )}
         </div>
       )}
     </div>
