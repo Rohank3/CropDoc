@@ -1,0 +1,30 @@
+# ==============================================================================
+# CropDoc Cloud Deployment Blueprint (Render)
+# Docs: https://render.com/docs/blueprint-spec
+# ==============================================================================
+
+services:
+  # FastAPI ML & Advisory Backend Web Service
+  - type: web
+    name: cropdoc-backend
+    runtime: python
+    region: singapore
+    plan: free
+    rootDir: backend
+    buildCommand: pip install --no-cache-dir torch torchvision --index-url https://download.pytorch.org/whl/cpu && pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /api/health
+    autoDeploy: true
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.9
+      - key: DEVICE
+        value: cpu
+      - key: CONFIDENCE_THRESHOLD
+        value: 0.35
+      - key: OPENWEATHER_API_KEY
+        sync: false
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: CORS_ORIGINS
+        value: '["*"]'
