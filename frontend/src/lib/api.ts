@@ -1,6 +1,22 @@
 import { DiagnosisResponse, WeatherData, MandiMetaResponse, MandiPricesResponse } from "@/types";
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000";
+// Resolves API Base URL:
+// 1. Server-side: uses Vercel's injected BACKEND_SERVICE_URL binding if present
+// 2. Client-side: uses NEXT_PUBLIC_API_URL if configured, or empty string "" for same-domain Vercel /api rewrites
+export function getApiBaseUrl(): string {
+  if (typeof window === "undefined") {
+    if (process.env.BACKEND_SERVICE_URL) {
+      return process.env.BACKEND_SERVICE_URL.replace(/\/$/, "");
+    }
+    return (process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000").replace(/\/$/, "");
+  }
+  if (process.env.NEXT_PUBLIC_API_URL) {
+    return process.env.NEXT_PUBLIC_API_URL.replace(/\/$/, "");
+  }
+  return "";
+}
+
+const API_BASE_URL = getApiBaseUrl();
 
 /**
  * Compresses an image client-side using an HTML Canvas
