@@ -21,7 +21,7 @@ services:
       - key: DEVICE
         value: cpu
       - key: CONFIDENCE_THRESHOLD
-        value: 0.35
+        value: 0.55
       - key: OPENWEATHER_API_KEY
         sync: false
       - key: GEMINI_API_KEY
